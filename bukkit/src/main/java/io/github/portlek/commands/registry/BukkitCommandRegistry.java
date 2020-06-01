@@ -24,8 +24,43 @@
 
 package io.github.portlek.commands.registry;
 
+import co.aikar.timings.lib.MCTiming;
+import co.aikar.timings.lib.TimingManager;
+import io.github.portlek.commands.Command;
 import io.github.portlek.commands.CommandRegistry;
+import java.util.logging.Logger;
+import org.bukkit.command.CommandMap;
+import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
 
-public final class BasicCommandRegistry implements CommandRegistry {
+public final class BukkitCommandRegistry implements CommandRegistry {
+
+    @NotNull
+    private final Plugin plugin;
+
+    @NotNull
+    private final Logger logger;
+
+    @NotNull
+    private final TimingManager timingManager;
+
+    @NotNull
+    private final MCTiming commandTiming;
+
+    @NotNull
+    private final CommandMap commandMap;
+
+    public BukkitCommandRegistry(@NotNull final Plugin plugin) {
+        this.plugin = plugin;
+        this.logger = Logger.getLogger(this.plugin.getName());
+        this.timingManager = TimingManager.of(plugin);
+        this.commandTiming = this.timingManager.of("Commands");
+        this.commandMap = initializeCommandMap();
+    }
+
+    @Override
+    public void register(@NotNull final Command command) {
+
+    }
 
 }

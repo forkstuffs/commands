@@ -25,12 +25,8 @@
 package io.github.portlek.commands.command;
 
 import io.github.portlek.commands.Command;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
-@RequiredArgsConstructor
-@Getter
 public final class BasicCommand implements Command {
 
     @NotNull
@@ -38,5 +34,22 @@ public final class BasicCommand implements Command {
 
     @NotNull
     private final String description;
+
+    public BasicCommand(@NotNull final String name, @NotNull final String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    @NotNull
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
+    @NotNull
+    @Override
+    public String getDescription() {
+        return this.description;
+    }
 
 }

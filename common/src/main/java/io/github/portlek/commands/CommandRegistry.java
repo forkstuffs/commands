@@ -24,6 +24,10 @@
 
 package io.github.portlek.commands;
 
+import org.jetbrains.annotations.NotNull;
+
 public interface CommandRegistry {
+
+    void register(@NotNull Command command);
 
 }
