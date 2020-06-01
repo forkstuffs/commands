@@ -25,7 +25,18 @@
 package io.github.portlek.commands.command;
 
 import io.github.portlek.commands.Command;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
+@RequiredArgsConstructor
+@Getter
 public final class BasicCommand implements Command {
+
+    @NotNull
+    private final String name;
+
+    @NotNull
+    private final String description;
 
 }
