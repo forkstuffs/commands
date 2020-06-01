@@ -1,2 +1,3 @@
 rootProject.name = 'commands-parent'
+include 'common'
 
