@@ -1,5 +1,0 @@
-rootProject.name = "commands-parent"
-
-include("common")
-include("bukkit")
-
