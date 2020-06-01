@@ -26,18 +26,20 @@ package io.github.portlek.commands.registry;
 
 import co.aikar.timings.lib.MCTiming;
 import co.aikar.timings.lib.TimingManager;
-import io.github.portlek.commands.Command;
-import io.github.portlek.commands.CommandRegistry;
+import io.github.portlek.commands.Cmd;
+import io.github.portlek.commands.CmdRegistry;
 import io.github.portlek.reflection.clazz.ClassOf;
-import java.util.logging.Level;
+import java.util.Map;
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
+import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
-public final class BukkitCommandRegistry implements CommandRegistry {
+public final class BukkitCommandRegistry implements CmdRegistry {
 
     @NotNull
     private final Plugin plugin;
@@ -54,28 +56,46 @@ public final class BukkitCommandRegistry implements CommandRegistry {
     @NotNull
     private final CommandMap commandMap;
 
+    @NotNull
+    private final Map<String, Command> knownCommands;
+
+    @NotNull
+    private final Map<String, Cmd> registeredCommands;
+
     public BukkitCommandRegistry(@NotNull final Plugin plugin) {
         this.plugin = plugin;
         this.logger = Logger.getLogger(this.plugin.getName());
         this.timingManager = TimingManager.of(plugin);
         this.commandTiming = this.timingManager.of("Commands");
-        this.commandMap = this.initializeCommandMap();
+        this.commandMap = BukkitCommandRegistry.initializeCommandMap();
+        this.knownCommands = this.initializeKnowCommand();
     }
 
-    @Override
-    public void register(@NotNull final Command command) {
-
-    }
-
+    /**
+     * Initializes the command map.
+     *
+     * @return {@link CommandMap} from the craft server.
+     */
     @NotNull
-    private CommandMap initializeCommandMap() {
+    private static CommandMap initializeCommandMap() {
         return (CommandMap) new ClassOf<>(Server.class)
             .findMethodByName("getCommandMap")
             .flatMap(refMethod -> refMethod.of(Bukkit.getServer()).call())
-            .orElseThrow(() -> {
-                this.logger.log(Level.SEVERE, "Failed to get Command Map. Commands will not function.");
-                return new RuntimeException("Failed to get Command Map. Commands will not function.");
-            });
+            .orElseThrow(() -> new RuntimeException("Failed to get Command Map. Commands will not function."));
+    }
+
+    @Override
+    public void register(@NotNull final Cmd cmd) {
+        cmd.onRegister(this);
+    }
+
+    @NotNull
+    private Map<String, Command> initializeKnowCommand() {
+        // noinspection unchecked
+        return (Map<String, Command>) new ClassOf<>(SimpleCommandMap.class)
+            .getField("knownCommands")
+            .flatMap(refField -> refField.of(this.commandMap).get())
+            .orElseThrow(() -> new RuntimeException("Failed to get Known Commands. Commands will not function."));
     }
 
 }

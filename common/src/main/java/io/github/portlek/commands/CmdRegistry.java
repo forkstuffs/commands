@@ -26,12 +26,8 @@ package io.github.portlek.commands;
 
 import org.jetbrains.annotations.NotNull;
 
-public interface Command {
+public interface CmdRegistry {
 
-    @NotNull
-    String getName();
-
-    @NotNull
-    String getDescription();
+    void register(@NotNull Cmd cmd);
 
 }

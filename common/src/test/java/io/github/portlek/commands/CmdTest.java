@@ -22,34 +22,35 @@
  * SOFTWARE.
  */
 
-package io.github.portlek.commands.command;
+package io.github.portlek.commands;
 
-import io.github.portlek.commands.Command;
-import org.jetbrains.annotations.NotNull;
+import io.github.portlek.commands.cmd.BasicCmd;
+import io.github.portlek.commands.subcmd.BasicSubCmd;
+import org.junit.jupiter.api.Test;
 
-public final class BasicCommand implements Command {
+final class CmdTest {
 
-    @NotNull
-    private final String name;
-
-    @NotNull
-    private final String description;
-
-    public BasicCommand(@NotNull final String name, @NotNull final String description) {
-        this.name = name;
-        this.description = description;
-    }
-
-    @NotNull
-    @Override
-    public String getName() {
-        return this.name;
-    }
-
-    @NotNull
-    @Override
-    public String getDescription() {
-        return this.description;
+    @Test
+    void creation() {
+        new BasicCmd("test-command")
+            .aliases("test-aliases")
+            .permission("plugin.test-command.main")
+            .guard(context ->
+                true)
+            .execute(context -> {
+                // executes /test-command
+            })
+            .createSub("test-sub", sub -> sub
+                .permission("plugin.test-command.test-sub")
+                .execute(context -> {
+                    // executes /test-command test-sub
+                }))
+            .createSub(new BasicSubCmd("test-sub-2"), subCmd -> subCmd
+                .permission("plugin.test-command.test-sub-2")
+                .typeLiteral("asd", "dsa", "sdda")
+                .execute(context -> {
+                    // executes /test-command [asd|dsa|sdda]
+                }));
     }
 
 }

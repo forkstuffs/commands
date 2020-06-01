@@ -22,13 +22,30 @@
  * SOFTWARE.
  */
 
-package io.github.portlek.commands;
+package io.github.portlek.commands.argtype;
 
-import jdk.jfr.internal.LogLevel;
+import io.github.portlek.commands.ArgType;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
-public interface CommandRegistry {
+public final class LiteralType implements ArgType {
 
-    void register(@NotNull Command command);
+    @NotNull
+    private final List<String> literals;
+
+    public LiteralType(@NotNull final List<String> literals) {
+        this.literals = literals;
+    }
+
+    public LiteralType(@NotNull final String... literals) {
+        this(Arrays.asList(literals));
+    }
+
+    @Override
+    public List<String> get() {
+        return Collections.unmodifiableList(this.literals);
+    }
 
 }
