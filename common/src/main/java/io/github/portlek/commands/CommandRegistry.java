@@ -24,6 +24,7 @@
 
 package io.github.portlek.commands;
 
+import jdk.jfr.internal.LogLevel;
 import org.jetbrains.annotations.NotNull;
 
 public interface CommandRegistry {

@@ -28,7 +28,11 @@ import co.aikar.timings.lib.MCTiming;
 import co.aikar.timings.lib.TimingManager;
 import io.github.portlek.commands.Command;
 import io.github.portlek.commands.CommandRegistry;
+import io.github.portlek.reflection.clazz.ClassOf;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.bukkit.Bukkit;
+import org.bukkit.Server;
 import org.bukkit.command.CommandMap;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
@@ -55,12 +59,23 @@ public final class BukkitCommandRegistry implements CommandRegistry {
         this.logger = Logger.getLogger(this.plugin.getName());
         this.timingManager = TimingManager.of(plugin);
         this.commandTiming = this.timingManager.of("Commands");
-        this.commandMap = initializeCommandMap();
+        this.commandMap = this.initializeCommandMap();
     }
 
     @Override
     public void register(@NotNull final Command command) {
 
+    }
+
+    @NotNull
+    private CommandMap initializeCommandMap() {
+        return (CommandMap) new ClassOf<>(Server.class)
+            .findMethodByName("getCommandMap")
+            .flatMap(refMethod -> refMethod.of(Bukkit.getServer()).call())
+            .orElseThrow(() -> {
+                this.logger.log(Level.SEVERE, "Failed to get Command Map. Commands will not function.");
+                return new RuntimeException("Failed to get Command Map. Commands will not function.");
+            });
     }
 
 }
