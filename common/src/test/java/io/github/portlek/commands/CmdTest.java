@@ -44,7 +44,12 @@ final class CmdTest {
                 .permission("plugin.test-command.test-sub")
                 .execute(context -> {
                     // executes /test-command test-sub
-                }))
+                })
+                .createSub("test-sub-sub", subsub -> subsub
+                    .permission("plugin.test-command.test-sub.sub")
+                    .execute(context -> {
+                        // executes /test-command test-sub test-subsub
+                    })))
             .createSub(new BasicSubCmd("test-sub-2"), subCmd -> subCmd
                 .permission("plugin.test-command.test-sub-2")
                 .typeLiteral("asd", "dsa", "sdda")
