@@ -26,8 +26,6 @@ package io.github.portlek.commands;
 
 import io.github.portlek.commands.argtype.LiteralType;
 import java.util.Collection;
-import java.util.List;
-import java.util.Set;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
