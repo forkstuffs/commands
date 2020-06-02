@@ -39,8 +39,8 @@ final class BukkitCmdTest {
     }
 
     void creation() {
-        final BukkitCommandRegistry bukkitCommandRegistry = new BukkitCommandRegistry(this.plugin);
-        final BasicCmd testCommand = new BasicCmd("test-command")
+        final BukkitCommandRegistry registry = new BukkitCommandRegistry(this.plugin);
+        final BasicCmd command = new BasicCmd("test-command")
             .aliases("test-aliases")
             .permission("plugin.test-command.main")
             .guard(context ->
@@ -72,7 +72,7 @@ final class BukkitCmdTest {
                 .execute(context -> {
                     // executes /test-command [asd|dsa|sdda]
                 }));
-        bukkitCommandRegistry.register(testCommand);
+        registry.register(command);
     }
 
 }
