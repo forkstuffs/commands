@@ -24,17 +24,22 @@
 
 package io.github.portlek.commands.argtype;
 
-import java.util.stream.Collectors;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
+import io.github.portlek.commands.ArgType;
+import java.util.Collection;
+import org.jetbrains.annotations.NotNull;
 
-public final class BukkitOnlinePlayersType extends ArgTypeEnvelope {
+public abstract class ArgTypeEnvelope implements ArgType {
 
-    public BukkitOnlinePlayersType() {
-        super(() ->
-            Bukkit.getOnlinePlayers().stream()
-                .map(Player::getName)
-                .collect(Collectors.toList()));
+    @NotNull
+    private final ArgType type;
+
+    public ArgTypeEnvelope(@NotNull final ArgType type) {
+        this.type = type;
+    }
+
+    @Override
+    public final Collection<String> get() {
+        return this.type.get();
     }
 
 }

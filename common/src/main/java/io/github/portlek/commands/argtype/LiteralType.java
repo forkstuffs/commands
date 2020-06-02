@@ -24,28 +24,20 @@
 
 package io.github.portlek.commands.argtype;
 
-import io.github.portlek.commands.ArgType;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import org.jetbrains.annotations.NotNull;
 
-public final class LiteralType implements ArgType {
-
-    @NotNull
-    private final Collection<String> literals;
+public final class LiteralType extends ArgTypeEnvelope {
 
     public LiteralType(@NotNull final Collection<String> literals) {
-        this.literals = literals;
+        super(() ->
+            Collections.unmodifiableCollection(literals));
     }
 
     public LiteralType(@NotNull final String... literals) {
         this(Arrays.asList(literals));
-    }
-
-    @Override
-    public Collection<String> get() {
-        return Collections.unmodifiableCollection(this.literals);
     }
 
 }
