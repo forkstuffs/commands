@@ -24,9 +24,10 @@
 
 package io.github.portlek.commands;
 
+import io.github.portlek.commands.cmd.BasicCmd;
 import org.jetbrains.annotations.NotNull;
 
-public interface Cmd<T> extends SubCmd<T> {
+public interface Cmd extends CmdPart<BasicCmd> {
 
     void onRegister(@NotNull CmdRegistry registry);
 

@@ -22,34 +22,10 @@
  * SOFTWARE.
  */
 
-package io.github.portlek.commands.subcmd;
+package io.github.portlek.commands;
 
-import io.github.portlek.commands.ArgType;
-import io.github.portlek.commands.SubCmd;
-import io.github.portlek.commands.part.BasicCmdPart;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import java.util.function.Predicate;
 
-public class BasicSubCmd extends BasicCmdPart<BasicSubCmd> implements SubCmd {
-
-    @Nullable
-    private ArgType type;
-
-    public BasicSubCmd(final @NotNull String name) {
-        super(name);
-    }
-
-    @NotNull
-    @Override
-    public BasicSubCmd self() {
-        return this;
-    }
-
-    @NotNull
-    @Override
-    public BasicSubCmd type(@NotNull final ArgType type) {
-        this.type = type;
-        return this.self();
-    }
+public interface Guard extends Predicate<CmdContext> {
 
 }

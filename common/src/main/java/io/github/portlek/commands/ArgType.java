@@ -24,9 +24,18 @@
 
 package io.github.portlek.commands;
 
+import io.github.portlek.commands.argtype.LiteralType;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Supplier;
+import org.jetbrains.annotations.NotNull;
 
-public interface ArgType extends Supplier<List<String>> {
+public interface ArgType extends Supplier<Collection<String>> {
+
+    @NotNull
+    static ArgType literal(@NotNull final String... literals) {
+        return new LiteralType(literals);
+    }
 
 }

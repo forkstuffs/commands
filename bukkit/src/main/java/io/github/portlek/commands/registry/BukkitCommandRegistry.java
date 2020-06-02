@@ -28,7 +28,9 @@ import co.aikar.timings.lib.MCTiming;
 import co.aikar.timings.lib.TimingManager;
 import io.github.portlek.commands.Cmd;
 import io.github.portlek.commands.CmdRegistry;
+import io.github.portlek.commands.Guard;
 import io.github.portlek.reflection.clazz.ClassOf;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
@@ -40,6 +42,10 @@ import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 public final class BukkitCommandRegistry implements CmdRegistry {
+
+    private final Map<String, Guard> guards = new HashMap<>();
+
+    private final Map<String, Cmd> registeredCommands = new HashMap<>();
 
     @NotNull
     private final Plugin plugin;
@@ -58,9 +64,6 @@ public final class BukkitCommandRegistry implements CmdRegistry {
 
     @NotNull
     private final Map<String, Command> knownCommands;
-
-    @NotNull
-    private final Map<String, Cmd> registeredCommands;
 
     public BukkitCommandRegistry(@NotNull final Plugin plugin) {
         this.plugin = plugin;
@@ -87,6 +90,11 @@ public final class BukkitCommandRegistry implements CmdRegistry {
     @Override
     public void register(@NotNull final Cmd cmd) {
         cmd.onRegister(this);
+    }
+
+    @Override
+    public void registerGuard(@NotNull final String guardid, @NotNull final Guard guard) {
+        this.guards.put(guardid, guard);
     }
 
     @NotNull

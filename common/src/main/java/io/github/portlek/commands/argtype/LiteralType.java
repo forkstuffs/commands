@@ -26,16 +26,16 @@ package io.github.portlek.commands.argtype;
 
 import io.github.portlek.commands.ArgType;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
 public final class LiteralType implements ArgType {
 
     @NotNull
-    private final List<String> literals;
+    private final Collection<String> literals;
 
-    public LiteralType(@NotNull final List<String> literals) {
+    public LiteralType(@NotNull final Collection<String> literals) {
         this.literals = literals;
     }
 
@@ -44,8 +44,8 @@ public final class LiteralType implements ArgType {
     }
 
     @Override
-    public List<String> get() {
-        return Collections.unmodifiableList(this.literals);
+    public Collection<String> get() {
+        return Collections.unmodifiableCollection(this.literals);
     }
 
 }

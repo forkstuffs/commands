@@ -24,6 +24,14 @@
 
 package io.github.portlek.commands;
 
+import org.jetbrains.annotations.NotNull;
+
 public interface CmdContext {
+
+    @NotNull
+    CmdSender getSender();
+
+    @NotNull
+    String[] getAllArgs();
 
 }

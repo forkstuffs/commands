@@ -30,4 +30,6 @@ public interface CmdRegistry {
 
     void register(@NotNull Cmd cmd);
 
+    void registerGuard(@NotNull String guardid, @NotNull Guard guard);
+
 }

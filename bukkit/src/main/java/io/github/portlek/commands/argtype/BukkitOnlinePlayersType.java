@@ -22,34 +22,21 @@
  * SOFTWARE.
  */
 
-package io.github.portlek.commands.subcmd;
+package io.github.portlek.commands.argtype;
 
 import io.github.portlek.commands.ArgType;
-import io.github.portlek.commands.SubCmd;
-import io.github.portlek.commands.part.BasicCmdPart;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import java.util.Collection;
+import java.util.stream.Collectors;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
-public class BasicSubCmd extends BasicCmdPart<BasicSubCmd> implements SubCmd {
+public final class BukkitOnlinePlayersType implements ArgType {
 
-    @Nullable
-    private ArgType type;
-
-    public BasicSubCmd(final @NotNull String name) {
-        super(name);
-    }
-
-    @NotNull
     @Override
-    public BasicSubCmd self() {
-        return this;
-    }
-
-    @NotNull
-    @Override
-    public BasicSubCmd type(@NotNull final ArgType type) {
-        this.type = type;
-        return this.self();
+    public Collection<String> get() {
+        return Bukkit.getOnlinePlayers().stream()
+            .map(Player::getName)
+            .collect(Collectors.toList());
     }
 
 }

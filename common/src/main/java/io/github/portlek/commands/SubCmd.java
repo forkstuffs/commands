@@ -24,48 +24,12 @@
 
 package io.github.portlek.commands;
 
-import io.github.portlek.commands.argtype.LiteralType;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import io.github.portlek.commands.subcmd.BasicSubCmd;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-public interface SubCmd {
-
-    @NotNull
-    String getName();
-
-    @NotNull
-    SubCmd description(@Nullable String description);
-
-    @NotNull
-    SubCmd permission(@Nullable String permission);
-
-    @NotNull
-    SubCmd createSub(@NotNull String subcommand, @NotNull Function<SubCmd, SubCmd> sub);
-
-    @NotNull
-    SubCmd createSub(@NotNull SubCmd subcommand, @NotNull Function<SubCmd, SubCmd> sub);
-
-    @NotNull
-    SubCmd createSub(@NotNull SubCmd subcommand);
-
-    @NotNull
-    SubCmd aliases(@NotNull String... aliases);
-
-    @NotNull
-    SubCmd guard(@NotNull Predicate<CmdContext> guard);
-
-    @NotNull
-    SubCmd execute(@NotNull Consumer<CmdContext> execute);
+public interface SubCmd extends CmdPart<BasicSubCmd> {
 
     @NotNull
     SubCmd type(@NotNull ArgType type);
-
-    @NotNull
-    default SubCmd typeLiteral(@NotNull final String... literals) {
-        return this.type(new LiteralType(literals));
-    }
 
 }

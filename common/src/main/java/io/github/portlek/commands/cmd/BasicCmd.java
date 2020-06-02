@@ -24,14 +24,13 @@
 
 package io.github.portlek.commands.cmd;
 
-import io.github.portlek.commands.ArgType;
 import io.github.portlek.commands.Cmd;
 import io.github.portlek.commands.CmdRegistry;
-import io.github.portlek.commands.subcmd.BasicSubCmd;
+import io.github.portlek.commands.part.BasicCmdPart;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public final class BasicCmd extends BasicSubCmd implements Cmd {
+public final class BasicCmd extends BasicCmdPart<BasicCmd> implements Cmd {
 
     @Nullable
     private CmdRegistry registry;
@@ -40,15 +39,15 @@ public final class BasicCmd extends BasicSubCmd implements Cmd {
         super(name);
     }
 
-    @NotNull
-    @Override
-    public BasicCmd type(final @NotNull ArgType type) {
-        throw new IllegalStateException("A Cmd can't get an argument type!");
-    }
-
     @Override
     public void onRegister(@NotNull final CmdRegistry registry) {
         this.onRegister(registry, this.getName());
+    }
+
+    @NotNull
+    @Override
+    public BasicCmd self() {
+        return this;
     }
 
     private void onRegister(@NotNull final CmdRegistry registry, @NotNull final String name) {

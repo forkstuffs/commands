@@ -22,34 +22,42 @@
  * SOFTWARE.
  */
 
-package io.github.portlek.commands.subcmd;
+package io.github.portlek.commands;
 
-import io.github.portlek.commands.ArgType;
-import io.github.portlek.commands.SubCmd;
-import io.github.portlek.commands.part.BasicCmdPart;
+import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class BasicSubCmd extends BasicCmdPart<BasicSubCmd> implements SubCmd {
-
-    @Nullable
-    private ArgType type;
-
-    public BasicSubCmd(final @NotNull String name) {
-        super(name);
-    }
+public interface CmdPart<X extends CmdPart<?>> extends Self<X>, Named {
 
     @NotNull
-    @Override
-    public BasicSubCmd self() {
-        return this;
-    }
+    X description(@Nullable String description);
 
     @NotNull
-    @Override
-    public BasicSubCmd type(@NotNull final ArgType type) {
-        this.type = type;
-        return this.self();
-    }
+    X permission(@Nullable String permission);
+
+    @NotNull
+    X createSub(@NotNull String partcommand, @NotNull Function<SubCmd, SubCmd> subfunc);
+
+    @NotNull
+    X createSub(@NotNull SubCmd subCmd, @NotNull Function<SubCmd, SubCmd> subfunc);
+
+    @NotNull
+    X createSub(@NotNull SubCmd subCmd);
+
+    @NotNull
+    X aliases(@NotNull String... aliases);
+
+    @NotNull
+    X guard(@NotNull Guard guard);
+
+    @NotNull
+    X guard(@NotNull String guardid);
+
+    @NotNull
+    X execute(@NotNull Execute execute);
+
+    @NotNull
+    X executePrevious();
 
 }
