@@ -46,11 +46,11 @@ dependencies {
 <summary>Bukkit</summary>
 
 ```java
-public final class CreatingCommandExample {
+final class CreatingCommandExample {
     
     private final Plugin plugin;
     
-    public CreatingCommandExample(@NotNull final Plugin plugin) {
+    CreatingCommandExample(@NotNull final Plugin plugin) {
         this.plugin = plugin;
     }
 

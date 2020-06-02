@@ -27,11 +27,17 @@ package io.github.portlek.commands;
 import io.github.portlek.commands.cmd.BasicCmd;
 import io.github.portlek.commands.registry.BukkitCommandRegistry;
 import io.github.portlek.commands.subcmd.BasicSubCmd;
-import org.junit.jupiter.api.Test;
+import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
 
 final class BukkitCmdTest {
 
-    @Test
+    private final Plugin plugin;
+
+    BukkitCmdTest(@NotNull final Plugin plugin) {
+        this.plugin = plugin;
+    }
+
     void creation() {
         final BukkitCommandRegistry bukkitCommandRegistry = new BukkitCommandRegistry(this.plugin);
         final BasicCmd testCommand = new BasicCmd("test-command")
