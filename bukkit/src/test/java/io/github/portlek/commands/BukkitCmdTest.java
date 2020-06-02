@@ -25,6 +25,7 @@
 package io.github.portlek.commands;
 
 import io.github.portlek.commands.cmd.BasicCmd;
+import io.github.portlek.commands.registry.BukkitCommandRegistry;
 import io.github.portlek.commands.subcmd.BasicSubCmd;
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +33,8 @@ final class BukkitCmdTest {
 
     @Test
     void creation() {
-        new BasicCmd("test-command")
+        final BukkitCommandRegistry bukkitCommandRegistry = new BukkitCommandRegistry(this.plugin);
+        final BasicCmd testCommand = new BasicCmd("test-command")
             .aliases("test-aliases")
             .permission("plugin.test-command.main")
             .guard(context ->
@@ -64,6 +66,7 @@ final class BukkitCmdTest {
                 .execute(context -> {
                     // executes /test-command [asd|dsa|sdda]
                 }));
+        bukkitCommandRegistry.register(testCommand);
     }
 
 }

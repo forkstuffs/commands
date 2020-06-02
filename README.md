@@ -17,8 +17,6 @@ repositories {
 }
 
 dependencies {
-    // For the all project type
-    implementation("io.github.portlek:commands-common:${version}")
     // For the bukkit projects
     implementation("io.github.portlek:commands-bukkit:${version}")
 }
@@ -30,12 +28,6 @@ dependencies {
 
 ```xml
 <dependencies>
-    <!-- For the all project type -->
-    <dependency>
-      <groupId>io.github.portlek</groupId>
-      <artifactId>commands-common</artifactId>
-      <version>${version}</version>
-    </dependency>
     <!-- For the bukkit projects -->
     <dependency>
       <groupId>io.github.portlek</groupId>
@@ -43,5 +35,70 @@ dependencies {
       <version>${version}</version>
     </dependency>
 </dependencies>
+```
+</details>
+
+## Usage
+
+### Creating a command
+
+<details>
+<summary>Bukkit</summary>
+
+```java
+public final class CreatingCommandExample {
+    
+    private final Plugin plugin;
+    
+    public CreatingCommandExample(@NotNull final Plugin plugin) {
+        this.plugin = plugin;
+    }
+
+    void creation() {
+        final BukkitCommandRegistry bukkitCommandRegistry = new BukkitCommandRegistry(this.plugin);
+        final BasicCmd testCommand = new BasicCmd("test-command")
+            .aliases("test-aliases")
+            .permission("plugin.test-command.main")
+            .guard(context ->
+                true)
+            .execute(context -> {
+                // executes /test-command
+            })
+            .createSub("message", subCmd -> subCmd
+                .permission("plugin.test-command.message")
+                .executePrevious()
+                .createSub("player-argument", playerSub -> playerSub
+                    .type(BukkitArgType.players())
+                    .execute(context -> {
+                        // executes /test-command message <online-players>
+                    })))
+            .createSub("test-sub", sub -> sub
+                .permission("plugin.test-command.test-sub")
+                .execute(context -> {
+                    // executes /test-command test-sub
+                })
+                .createSub("test-sub-sub", subsub -> subsub
+                    .permission("plugin.test-command.test-sub.sub")
+                    .execute(context -> {
+                        // executes /test-command test-sub test-subsub
+                    })))
+            .createSub(new BasicSubCmd("test-sub-2"), subCmd -> subCmd
+                .permission("plugin.test-command.test-sub-2")
+                .type(ArgType.literal("asd", "dsa", "sdda"))
+                .execute(context -> {
+                    // executes /test-command [asd|dsa|sdda]
+                }));
+        bukkitCommandRegistry.register(testCommand);
+    }
+    
+}
+```
+
+The result will be like that;
+
+```yml
+test: 'test'
+test-section:
+  test-section-string: 'test'
 ```
 </details>
