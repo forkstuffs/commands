@@ -46,9 +46,6 @@ public interface CmdPart<X extends CmdPart<?>> extends Self<X>, Named {
     X createSub(@NotNull SubCmd subCmd);
 
     @NotNull
-    X aliases(@NotNull String... aliases);
-
-    @NotNull
     X guard(@NotNull Guard guard);
 
     @NotNull

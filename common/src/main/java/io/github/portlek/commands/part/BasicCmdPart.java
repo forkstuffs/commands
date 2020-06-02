@@ -38,8 +38,6 @@ public abstract class BasicCmdPart<X extends CmdPart<?>> implements CmdPart<X> {
 
     private final Map<String, SubCmd> subcommands = new HashMap<>();
 
-    private final Collection<String> aliases = new ArrayList<>();
-
     private final Collection<Guard> guards = new ArrayList<>();
 
     private final Collection<Execute> executes = new ArrayList<>();
@@ -95,13 +93,6 @@ public abstract class BasicCmdPart<X extends CmdPart<?>> implements CmdPart<X> {
     @Override
     public final X createSub(@NotNull final SubCmd subcommand) {
         this.subcommands.put(subcommand.getName(), subcommand);
-        return this.self();
-    }
-
-    @NotNull
-    @Override
-    public final X aliases(@NotNull final String... aliases) {
-        this.aliases.addAll(Arrays.asList(aliases));
         return this.self();
     }
 

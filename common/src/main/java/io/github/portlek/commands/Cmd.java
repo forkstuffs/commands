@@ -31,4 +31,7 @@ public interface Cmd extends CmdPart<BasicCmd> {
 
     void onRegister(@NotNull CmdRegistry registry);
 
+    @NotNull
+    Cmd aliases(@NotNull String... aliases);
+
 }

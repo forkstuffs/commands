@@ -27,10 +27,15 @@ package io.github.portlek.commands.cmd;
 import io.github.portlek.commands.Cmd;
 import io.github.portlek.commands.CmdRegistry;
 import io.github.portlek.commands.part.BasicCmdPart;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public final class BasicCmd extends BasicCmdPart<BasicCmd> implements Cmd {
+
+    private final Collection<String> aliases = new ArrayList<>();
 
     @Nullable
     private CmdRegistry registry;
@@ -42,6 +47,13 @@ public final class BasicCmd extends BasicCmdPart<BasicCmd> implements Cmd {
     @Override
     public void onRegister(@NotNull final CmdRegistry registry) {
         this.onRegister(registry, this.getName());
+    }
+
+    @NotNull
+    @Override
+    public Cmd aliases(@NotNull final String... aliases) {
+        this.aliases.addAll(Arrays.asList(aliases));
+        return this.self();
     }
 
     @NotNull
