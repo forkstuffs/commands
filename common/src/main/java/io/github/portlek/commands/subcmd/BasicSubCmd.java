@@ -26,17 +26,18 @@ package io.github.portlek.commands.subcmd;
 
 import io.github.portlek.commands.ArgType;
 import io.github.portlek.commands.SubCmd;
+import io.github.portlek.commands.argtype.LiteralType;
 import io.github.portlek.commands.part.BasicCmdPart;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-public class BasicSubCmd extends BasicCmdPart<BasicSubCmd> implements SubCmd {
+public final class BasicSubCmd extends BasicCmdPart<BasicSubCmd> implements SubCmd {
 
-    @Nullable
+    @NotNull
     private ArgType type;
 
     public BasicSubCmd(final @NotNull String name) {
         super(name);
+        this.type = new LiteralType(name);
     }
 
     @NotNull

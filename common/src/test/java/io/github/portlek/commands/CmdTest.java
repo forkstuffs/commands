@@ -32,7 +32,7 @@ final class CmdTest {
 
     @Test
     void creation() {
-        new BasicCmd("test-command")
+        final BasicCmd command = new BasicCmd("test-command")
             .aliases("test-aliases")
             .permission("plugin.test-command.main")
             .guard(context ->
