@@ -25,6 +25,7 @@
 package io.github.portlek.commands.argtype;
 
 import io.github.portlek.commands.ArgType;
+import io.github.portlek.commands.CmdContext;
 import java.util.Collection;
 import org.jetbrains.annotations.NotNull;
 
@@ -38,8 +39,8 @@ public abstract class ArgTypeEnvelope implements ArgType {
     }
 
     @Override
-    public final Collection<String> get() {
-        return this.type.get();
+    public Collection<String> apply(final CmdContext context) {
+        return this.type.apply(context);
     }
 
 }

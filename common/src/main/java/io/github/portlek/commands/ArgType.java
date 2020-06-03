@@ -26,10 +26,10 @@ package io.github.portlek.commands;
 
 import io.github.portlek.commands.argtype.LiteralType;
 import java.util.Collection;
-import java.util.function.Supplier;
+import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
 
-public interface ArgType extends Supplier<Collection<String>> {
+public interface ArgType extends Function<CmdContext, Collection<String>> {
 
     @NotNull
     static ArgType literal(@NotNull final String... literals) {

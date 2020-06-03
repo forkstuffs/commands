@@ -32,7 +32,7 @@ import org.jetbrains.annotations.NotNull;
 public final class LiteralType extends ArgTypeEnvelope {
 
     public LiteralType(@NotNull final Collection<String> literals) {
-        super(() ->
+        super(context ->
             Collections.unmodifiableCollection(literals));
     }
 

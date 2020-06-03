@@ -31,7 +31,7 @@ import org.bukkit.entity.Player;
 public final class BukkitOnlinePlayersType extends ArgTypeEnvelope {
 
     public BukkitOnlinePlayersType() {
-        super(() ->
+        super(context ->
             Bukkit.getOnlinePlayers().stream()
                 .map(Player::getName)
                 .collect(Collectors.toList()));
