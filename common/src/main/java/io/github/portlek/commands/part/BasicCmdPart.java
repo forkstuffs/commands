@@ -24,10 +24,7 @@
 
 package io.github.portlek.commands.part;
 
-import io.github.portlek.commands.CmdPart;
-import io.github.portlek.commands.Execute;
-import io.github.portlek.commands.Guard;
-import io.github.portlek.commands.SubCmd;
+import io.github.portlek.commands.*;
 import io.github.portlek.commands.subcmd.BasicSubCmd;
 import java.util.*;
 import java.util.function.Function;
@@ -52,6 +49,9 @@ public abstract class BasicCmdPart<X extends CmdPart<?>> implements CmdPart<X> {
     private String description;
 
     private boolean executePrevious = false;
+
+    @Nullable
+    private CmdRegistry registry;
 
     protected BasicCmdPart(@NotNull final String name) {
         this.name = name.toLowerCase(Locale.ENGLISH);
@@ -106,8 +106,19 @@ public abstract class BasicCmdPart<X extends CmdPart<?>> implements CmdPart<X> {
     @NotNull
     @Override
     public final X guard(@NotNull final String guardid) {
+        return this.guard(context -> {
+            final Optional<CmdRegistry> optional = Optional.ofNullable(this.registry);
+            if (!optional.isPresent()) {
+                return false;
+            }
+            final CmdRegistry cmdRegistry = optional.get();
+            final Optional optionalguard = cmdRegistry.getGuard(guardid);
+            if (!optionalguard.isPresent()) {
 
-        return this.self();
+                return true;
+            }
+            return true;
+        });
     }
 
     @NotNull

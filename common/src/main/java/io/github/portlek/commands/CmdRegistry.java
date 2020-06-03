@@ -24,12 +24,17 @@
 
 package io.github.portlek.commands;
 
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public interface CmdRegistry {
 
     void register(@NotNull Cmd cmd);
 
     void registerGuard(@NotNull String guardid, @NotNull Guard guard);
+
+    @NotNull
+    Optional getGuard(@NotNull String guardid);
 
 }
