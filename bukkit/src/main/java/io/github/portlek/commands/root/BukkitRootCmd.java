@@ -27,6 +27,7 @@ package io.github.portlek.commands.root;
 import io.github.portlek.commands.CmdRegistry;
 import io.github.portlek.commands.RootCmd;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 public final class BukkitRootCmd extends Command implements RootCmd {
@@ -47,6 +48,11 @@ public final class BukkitRootCmd extends Command implements RootCmd {
 
     public void setRegistered(final boolean registered) {
         this.registered = registered;
+    }
+
+    @Override
+    public boolean execute(@NotNull final CommandSender commandSender, @NotNull final String s, final @NotNull String[] strings) {
+        return false;
     }
 
 }
