@@ -66,6 +66,12 @@ public abstract class BasicCmdPart<X extends CmdPart<?>> implements CmdPart<X> {
 
     @NotNull
     @Override
+    public final Optional<String> description() {
+        return Optional.ofNullable(this.description);
+    }
+
+    @NotNull
+    @Override
     public final X permission(@Nullable final String permission) {
         this.permission = permission;
         return this.self();
@@ -73,8 +79,14 @@ public abstract class BasicCmdPart<X extends CmdPart<?>> implements CmdPart<X> {
 
     @NotNull
     @Override
+    public final Optional<String> permission() {
+        return Optional.ofNullable(this.permission);
+    }
+
+    @NotNull
+    @Override
     public final X createSub(@NotNull final String partcommand, @NotNull final Function<SubCmd, SubCmd> subfunc) {
-        return this.createSub(new BasicSubCmd(partcommand), subfunc);
+        return this.createSub(new BasicSubCmd(partcommand, this), subfunc);
     }
 
     @NotNull
@@ -85,9 +97,16 @@ public abstract class BasicCmdPart<X extends CmdPart<?>> implements CmdPart<X> {
 
     @NotNull
     @Override
-    public final X createSub(@NotNull final SubCmd subcommand) {
-        this.subcommands.put(subcommand.getName(), subcommand);
+    public final X createSub(final @NotNull SubCmd... subcommands) {
+        Arrays.stream(subcommands).forEach(subCmd ->
+            this.subcommands.put(subCmd.getName(), subCmd));
         return this.self();
+    }
+
+    @NotNull
+    @Override
+    public final Map<String, SubCmd> subs() {
+        return Collections.unmodifiableMap(this.subcommands);
     }
 
     @NotNull
@@ -111,6 +130,12 @@ public abstract class BasicCmdPart<X extends CmdPart<?>> implements CmdPart<X> {
 
     @NotNull
     @Override
+    public final Collection<Guard> guards() {
+        return Collections.unmodifiableCollection(this.guards);
+    }
+
+    @NotNull
+    @Override
     public final X execute(final @NotNull Execute execute) {
         this.executes.add(execute);
         return this.self();
@@ -118,9 +143,21 @@ public abstract class BasicCmdPart<X extends CmdPart<?>> implements CmdPart<X> {
 
     @NotNull
     @Override
-    public final X executePrevious() {
-        this.executePrevious = true;
+    public final Collection<Execute> executes() {
+        return Collections.unmodifiableCollection(this.executes);
+    }
+
+    @NotNull
+    @Override
+    public final X executePrevious(final boolean executePrevious) {
+        this.executePrevious = executePrevious;
         return this.self();
+    }
+
+    @NotNull
+    @Override
+    public final boolean executePrevious() {
+        return this.executePrevious;
     }
 
     @NotNull

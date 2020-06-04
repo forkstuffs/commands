@@ -26,7 +26,6 @@ package io.github.portlek.commands;
 
 import io.github.portlek.commands.cmd.BasicCmd;
 import io.github.portlek.commands.registry.BukkitCommandRegistry;
-import io.github.portlek.commands.subcmd.BasicSubCmd;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -50,7 +49,7 @@ final class BukkitCmdTest {
             })
             .createSub("message", subCmd -> subCmd
                 .permission("plugin.test-command.message")
-                .executePrevious()
+                .executePrevious(true)
                 .createSub("player-argument", playerSub -> playerSub
                     .type(BukkitArgType.players())
                     .execute(context -> {
@@ -66,7 +65,7 @@ final class BukkitCmdTest {
                     .execute(context -> {
                         // executes /test-command test-sub test-subsub
                     })))
-            .createSub(new BasicSubCmd("test-sub-2"), subCmd -> subCmd
+            .createSub("test-sub-2", subCmd -> subCmd
                 .permission("plugin.test-command.test-sub-2")
                 .type(ArgType.literal("asd", "dsa", "sdda"))
                 .execute(context -> {

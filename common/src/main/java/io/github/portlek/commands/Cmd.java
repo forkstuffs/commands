@@ -25,13 +25,21 @@
 package io.github.portlek.commands;
 
 import io.github.portlek.commands.cmd.BasicCmd;
+import java.util.Collection;
+import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 
 public interface Cmd extends CmdPart<BasicCmd> {
 
-    void onRegister(@NotNull CmdRegistry registry);
-
     @NotNull
     Cmd aliases(@NotNull String... aliases);
+
+    @NotNull
+    Collection<String> aliases();
+
+    void register(@NotNull CmdRegistry registry);
+
+    @NotNull
+    Map<String, RootCmd> roots();
 
 }

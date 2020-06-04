@@ -24,6 +24,8 @@
 
 package io.github.portlek.commands;
 
+import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
@@ -35,7 +37,13 @@ public interface CmdPart<X extends CmdPart<?>> extends Self<X>, Named {
     X description(@Nullable String description);
 
     @NotNull
+    Optional<String> description();
+
+    @NotNull
     X permission(@Nullable String permission);
+
+    @NotNull
+    Optional<String> permission();
 
     @NotNull
     X createSub(@NotNull String partcommand, @NotNull Function<SubCmd, SubCmd> subfunc);
@@ -44,7 +52,10 @@ public interface CmdPart<X extends CmdPart<?>> extends Self<X>, Named {
     X createSub(@NotNull SubCmd subCmd, @NotNull Function<SubCmd, SubCmd> subfunc);
 
     @NotNull
-    X createSub(@NotNull SubCmd subCmd);
+    X createSub(@NotNull SubCmd... subCmd);
+
+    @NotNull
+    Map<String, SubCmd> subs();
 
     @NotNull
     X guard(@NotNull Guard guard);
@@ -53,10 +64,18 @@ public interface CmdPart<X extends CmdPart<?>> extends Self<X>, Named {
     X guard(@NotNull String guardid);
 
     @NotNull
-    X execute(@NotNull Execute execute);
+    Collection<Guard> guards();
 
     @NotNull
-    X executePrevious();
+    X execute(@NotNull Execute execute);
+
+    @NotNull Collection<Execute> executes();
+
+    @NotNull
+    X executePrevious(boolean executePrevious);
+
+    @NotNull
+    boolean executePrevious();
 
     @NotNull
     Optional<CmdRegistry> registry();

@@ -22,45 +22,14 @@
  * SOFTWARE.
  */
 
-package io.github.portlek.commands.subcmd;
+package io.github.portlek.commands.util;
 
-import io.github.portlek.commands.ArgType;
-import io.github.portlek.commands.CmdPart;
-import io.github.portlek.commands.SubCmd;
-import io.github.portlek.commands.argtype.LiteralType;
-import io.github.portlek.commands.part.BasicCmdPart;
-import org.jetbrains.annotations.NotNull;
+import java.util.regex.Pattern;
 
-public final class BasicSubCmd extends BasicCmdPart<BasicSubCmd> implements SubCmd {
+public final class Patterns {
 
-    @NotNull
-    private final CmdPart<?> previous;
+    public static final Pattern COLON = Pattern.compile(":");
 
-    @NotNull
-    private ArgType type;
-
-    public BasicSubCmd(@NotNull final String name, final CmdPart<?> previous) {
-        super(name);
-        this.type = new LiteralType(name);
-        this.previous = previous;
-    }
-
-    @NotNull
-    public CmdPart<?> previous() {
-        return this.previous;
-    }
-
-    @NotNull
-    @Override
-    public BasicSubCmd type(@NotNull final ArgType type) {
-        this.type = type;
-        return this.self();
-    }
-
-    @NotNull
-    @Override
-    public BasicSubCmd self() {
-        return this;
-    }
+    public static final Pattern SPACE = Pattern.compile(" ");
 
 }

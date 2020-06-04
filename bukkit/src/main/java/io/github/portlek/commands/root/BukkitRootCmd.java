@@ -22,56 +22,31 @@
  * SOFTWARE.
  */
 
-package io.github.portlek.commands.cmd;
+package io.github.portlek.commands.root;
 
-import io.github.portlek.commands.Cmd;
 import io.github.portlek.commands.CmdRegistry;
 import io.github.portlek.commands.RootCmd;
-import io.github.portlek.commands.part.BasicCmdPart;
-import java.util.*;
+import org.bukkit.command.Command;
 import org.jetbrains.annotations.NotNull;
 
-public final class BasicCmd extends BasicCmdPart<BasicCmd> implements Cmd {
+public final class BukkitRootCmd extends Command implements RootCmd {
 
-    private final Map<String, RootCmd> roots = new HashMap<>();
+    @NotNull
+    private final CmdRegistry registry;
 
-    private final Collection<String> aliases = new ArrayList<>();
+    private boolean registered = false;
 
-    public BasicCmd(@NotNull final String name) {
+    public BukkitRootCmd(@NotNull final String name, @NotNull final CmdRegistry registry) {
         super(name);
+        this.registry = registry;
     }
 
-    @NotNull
-    @Override
-    public Cmd aliases(@NotNull final String... aliases) {
-        this.aliases.addAll(Arrays.asList(aliases));
-        return this.self();
+    public boolean isCommandRegistered() {
+        return this.registered;
     }
 
-    @NotNull
-    @Override
-    public Collection<String> aliases() {
-        return Collections.unmodifiableCollection(this.aliases);
-    }
-
-    @Override
-    public void register(@NotNull final CmdRegistry registry) {
-        this.roots.clear();
-        this.roots.put(this.getName(), registry.obtainRoot(this.getName()));
-        this.aliases().forEach(s ->
-            this.roots.put(s, registry.createRoot(s)));
-    }
-
-    @NotNull
-    @Override
-    public Map<String, RootCmd> roots() {
-        return Collections.unmodifiableMap(this.roots);
-    }
-
-    @NotNull
-    @Override
-    public BasicCmd self() {
-        return this;
+    public void setRegistered(final boolean registered) {
+        this.registered = registered;
     }
 
 }
