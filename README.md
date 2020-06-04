@@ -48,6 +48,7 @@ dependencies {
 ```java
 final class BukkitCmdTest {
 
+    @NotNull
     private final JavaPlugin plugin;
 
     BukkitCmdTest(@NotNull final JavaPlugin plugin) {
