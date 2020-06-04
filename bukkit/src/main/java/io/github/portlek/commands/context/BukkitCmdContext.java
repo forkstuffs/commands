@@ -28,7 +28,6 @@ import io.github.portlek.commands.Cmd;
 import io.github.portlek.commands.CmdContext;
 import io.github.portlek.commands.CmdSender;
 import io.github.portlek.commands.SubCmd;
-import java.util.Map;
 import java.util.Optional;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -75,9 +74,8 @@ public final class BukkitCmdContext implements CmdContext {
             return Optional.empty();
         }
         for (final String arg : this.getAllArgs()) {
-            for (final Map.Entry<String, SubCmd> entry : this.cmd.subs().entrySet()) {
-                final String label = entry.getKey();
-                final SubCmd sub = entry.getValue();
+            for (final SubCmd sub : this.cmd.subs().values()) {
+                final String label = sub.getName();
 
             }
         }
