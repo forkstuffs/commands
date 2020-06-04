@@ -33,7 +33,7 @@ import org.jetbrains.annotations.Nullable;
 
 public abstract class BasicCmdPart<X extends CmdPart<?>> implements CmdPart<X> {
 
-    private final Map<String, SubCmd> subcommands = new HashMap<>();
+    private final List<SubCmd> subcommands = new ArrayList<>();
 
     private final Collection<Guard> guards = new ArrayList<>();
 
@@ -98,15 +98,16 @@ public abstract class BasicCmdPart<X extends CmdPart<?>> implements CmdPart<X> {
     @NotNull
     @Override
     public final X createSub(final @NotNull SubCmd... subcommands) {
-        Arrays.stream(subcommands).forEach(subCmd ->
-            this.subcommands.put(subCmd.getName(), subCmd));
+        Arrays.stream(subcommands)
+            .filter(subCmd -> subCmd.type());
+        this.subcommands.addAll();
         return this.self();
     }
 
     @NotNull
     @Override
-    public final Map<String, SubCmd> subs() {
-        return Collections.unmodifiableMap(this.subcommands);
+    public final List<SubCmd> subs() {
+        return Collections.unmodifiableList(this.subcommands);
     }
 
     @NotNull

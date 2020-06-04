@@ -30,9 +30,9 @@ import org.jetbrains.annotations.NotNull;
 public interface SubCmd extends CmdPart<BasicSubCmd> {
 
     @NotNull
-    SubCmd type(@NotNull ArgType type);
+    SubCmd type(@NotNull ArgType<?> type);
 
     @NotNull
-    ArgType type();
+    ArgType<?> type();
 
 }

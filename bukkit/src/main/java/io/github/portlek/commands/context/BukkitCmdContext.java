@@ -74,8 +74,7 @@ public final class BukkitCmdContext implements CmdContext {
             return Optional.empty();
         }
         for (final String arg : this.getAllArgs()) {
-            for (final SubCmd sub : this.cmd.subs().values()) {
-                final String label = sub.getName();
+            for (final SubCmd sub : this.cmd.subs()) {
 
             }
         }

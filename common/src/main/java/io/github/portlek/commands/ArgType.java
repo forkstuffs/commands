@@ -36,4 +36,8 @@ public interface ArgType extends Function<CmdContext, Collection<String>> {
         return new LiteralType(literals);
     }
 
+    default boolean isLiteral() {
+        return false;
+    }
+
 }

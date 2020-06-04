@@ -25,7 +25,7 @@
 package io.github.portlek.commands;
 
 import java.util.Collection;
-import java.util.Map;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
@@ -55,7 +55,7 @@ public interface CmdPart<X extends CmdPart<?>> extends Self<X>, Named {
     X createSub(@NotNull SubCmd... subCmd);
 
     @NotNull
-    Map<String, SubCmd> subs();
+    List<SubCmd> subs();
 
     @NotNull
     X guard(@NotNull Guard guard);

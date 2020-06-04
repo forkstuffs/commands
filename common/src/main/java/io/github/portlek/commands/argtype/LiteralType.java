@@ -40,4 +40,9 @@ public final class LiteralType extends ArgTypeEnvelope {
         this(Arrays.asList(literals));
     }
 
+    @Override
+    public boolean isLiteral() {
+        return !super.isLiteral();
+    }
+
 }

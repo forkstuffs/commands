@@ -34,12 +34,12 @@ public abstract class ArgTypeEnvelope implements ArgType {
     @NotNull
     private final ArgType type;
 
-    public ArgTypeEnvelope(@NotNull final ArgType type) {
+    protected ArgTypeEnvelope(@NotNull final ArgType type) {
         this.type = type;
     }
 
     @Override
-    public Collection<String> apply(final CmdContext context) {
+    public final Collection<String> apply(final CmdContext context) {
         return this.type.apply(context);
     }
 

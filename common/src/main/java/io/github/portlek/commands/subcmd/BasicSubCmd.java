@@ -37,7 +37,7 @@ public final class BasicSubCmd extends BasicCmdPart<BasicSubCmd> implements SubC
     private final CmdPart<?> previous;
 
     @NotNull
-    private ArgType type;
+    private ArgType<?> type;
 
     public BasicSubCmd(@NotNull final String name, final CmdPart<?> previous) {
         super(name);
@@ -52,14 +52,14 @@ public final class BasicSubCmd extends BasicCmdPart<BasicSubCmd> implements SubC
 
     @NotNull
     @Override
-    public BasicSubCmd type(@NotNull final ArgType type) {
+    public BasicSubCmd type(final @NotNull ArgType<?> type) {
         this.type = type;
         return this.self();
     }
 
     @NotNull
     @Override
-    public ArgType type() {
+    public ArgType<?> type() {
         return this.type;
     }
 
