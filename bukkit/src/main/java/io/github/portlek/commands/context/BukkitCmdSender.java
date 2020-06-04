@@ -22,23 +22,19 @@
  * SOFTWARE.
  */
 
-package io.github.portlek.commands;
+package io.github.portlek.commands.context;
 
-import java.util.Optional;
+import io.github.portlek.commands.CmdSender;
+import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-public interface CmdContext {
+public final class BukkitCmdSender implements CmdSender {
 
     @NotNull
-    CmdSender getSender();
+    private final CommandSender sender;
 
-    @NotNull
-    String getArg();
-
-    @NotNull
-    String[] getAllArgs();
-
-    @NotNull
-    Optional<SubCmd> getCurrentSub(boolean silent);
+    public BukkitCmdSender(@NotNull final CommandSender sender) {
+        this.sender = sender;
+    }
 
 }

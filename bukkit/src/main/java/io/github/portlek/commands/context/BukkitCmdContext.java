@@ -22,51 +22,66 @@
  * SOFTWARE.
  */
 
-package io.github.portlek.commands.subcmd;
+package io.github.portlek.commands.context;
 
-import io.github.portlek.commands.ArgType;
-import io.github.portlek.commands.CmdPart;
+import io.github.portlek.commands.Cmd;
+import io.github.portlek.commands.CmdContext;
+import io.github.portlek.commands.CmdSender;
 import io.github.portlek.commands.SubCmd;
-import io.github.portlek.commands.argtype.LiteralType;
-import io.github.portlek.commands.part.BasicCmdPart;
+import java.util.Map;
+import java.util.Optional;
+import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-public final class BasicSubCmd extends BasicCmdPart<BasicSubCmd> implements SubCmd {
+public final class BukkitCmdContext implements CmdContext {
 
     @NotNull
-    private final CmdPart<?> previous;
+    private final Cmd cmd;
 
     @NotNull
-    private ArgType type;
-
-    public BasicSubCmd(@NotNull final String name, final CmdPart<?> previous) {
-        super(name);
-        this.type = new LiteralType(name);
-        this.previous = previous;
-    }
+    private final CmdSender sender;
 
     @NotNull
-    public CmdPart<?> previous() {
-        return this.previous;
-    }
+    private final String[] args;
 
-    @NotNull
-    @Override
-    public BasicSubCmd type(@NotNull final ArgType type) {
-        this.type = type;
-        return this.self();
+    public BukkitCmdContext(@NotNull final Cmd cmd, @NotNull final CommandSender sender, final @NotNull String[] args) {
+        this.cmd = cmd;
+        this.sender = new BukkitCmdSender(sender);
+        this.args = args;
     }
 
     @NotNull
     @Override
-    public ArgType type() {
-        return this.type;
+    public CmdSender getSender() {
+        return this.sender;
     }
 
     @NotNull
     @Override
-    public BasicSubCmd self() {
-        return this;
+    public String getArg() {
+        return this.args[this.args.length - 1];
+    }
+
+    @NotNull
+    @Override
+    public String[] getAllArgs() {
+        return this.args.clone();
+    }
+
+    @NotNull
+    @Override
+    public Optional<SubCmd> getCurrentSub(final boolean silent) {
+        if (this.args.length == 0) {
+            return Optional.empty();
+        }
+        for (final String arg : this.getAllArgs()) {
+            for (final Map.Entry<String, SubCmd> entry : this.cmd.subs().entrySet()) {
+                final String label = entry.getKey();
+                final SubCmd sub = entry.getValue();
+
+            }
+        }
+        return Optional.empty();
     }
 
 }

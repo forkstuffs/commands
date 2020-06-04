@@ -25,12 +25,16 @@
 package io.github.portlek.commands.executor;
 
 import io.github.portlek.commands.Cmd;
+import io.github.portlek.commands.CmdContext;
+import io.github.portlek.commands.SubCmd;
+import io.github.portlek.commands.context.BukkitCmdContext;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public final class BukkitExecutor implements TabExecutor {
 
@@ -43,15 +47,35 @@ public final class BukkitExecutor implements TabExecutor {
 
     @Override
     public boolean onCommand(@NotNull final CommandSender commandSender, @NotNull final Command command,
-                             @NotNull final String s, final @NotNull String[] strings) {
-        return false;
+                             @NotNull final String label, @NotNull final String[] args) {
+        final CmdContext context = new BukkitCmdContext(this.cmd, commandSender, args);
+        if (this.cmd.guards().stream().anyMatch(guard ->
+            guard.negate().test(context))) {
+            return true;
+        }
+        if (args.length == 0) {
+            this.cmd.executes().forEach(execute -> execute.accept(context));
+            return true;
+        }
+        final Optional<SubCmd> optional = context.getCurrentSub(false);
+        if (!optional.isPresent()) {
+            return true;
+        }
+        final SubCmd current = optional.get();
+        if (current.guards().stream().anyMatch(guard ->
+            guard.negate().test(context))) {
+            return true;
+        }
+        current.executes().forEach(execute ->
+            execute.accept(context));
+        return true;
     }
 
-    @Nullable
+    @NotNull
     @Override
     public List<String> onTabComplete(@NotNull final CommandSender commandSender, @NotNull final Command command,
-                                      @NotNull final String s, final @NotNull String[] strings) {
-        return null;
+                                      @NotNull final String s, @NotNull final String[] strings) {
+        return Collections.emptyList();
     }
 
 }

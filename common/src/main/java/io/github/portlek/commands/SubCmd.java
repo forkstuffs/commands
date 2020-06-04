@@ -32,4 +32,7 @@ public interface SubCmd extends CmdPart<BasicSubCmd> {
     @NotNull
     SubCmd type(@NotNull ArgType type);
 
+    @NotNull
+    ArgType type();
+
 }
