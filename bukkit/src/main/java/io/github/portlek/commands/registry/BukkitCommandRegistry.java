@@ -30,6 +30,7 @@ import io.github.portlek.commands.Cmd;
 import io.github.portlek.commands.CmdRegistry;
 import io.github.portlek.commands.Guard;
 import io.github.portlek.commands.RootCmd;
+import io.github.portlek.commands.context.CmdCompletions;
 import io.github.portlek.commands.root.BukkitRootCmd;
 import io.github.portlek.commands.util.Patterns;
 import io.github.portlek.reflection.clazz.ClassOf;
@@ -43,6 +44,7 @@ import org.bukkit.command.PluginIdentifiableCommand;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public final class BukkitCommandRegistry implements CmdRegistry {
 
@@ -67,6 +69,9 @@ public final class BukkitCommandRegistry implements CmdRegistry {
 
     @NotNull
     private final Map<String, Command> knownCommands;
+
+    @Nullable
+    private BukkitCommandCompletions completions;
 
     public BukkitCommandRegistry(@NotNull final Plugin plugin) {
         this.plugin = plugin;
@@ -98,7 +103,7 @@ public final class BukkitCommandRegistry implements CmdRegistry {
 
     @Override
     public void register(@NotNull final Cmd cmd, final boolean force) {
-        cmd.registry(this);
+        cmd.register(this);
         cmd.roots().forEach((s, rootCmd) -> {
             final BukkitRootCmd bukkitRootCmd = (BukkitRootCmd) rootCmd;
             if (!bukkitRootCmd.isCommandRegistered()) {
@@ -145,6 +150,20 @@ public final class BukkitCommandRegistry implements CmdRegistry {
     @Override
     public RootCmd createRoot(@NotNull final String name) {
         return new BukkitRootCmd(name, this);
+    }
+
+    @NotNull
+    @Override
+    public Optional<RootCmd> root(@NotNull final String name) {
+        return Optional.ofNullable(this.roots.get(name));
+    }
+
+    @Override
+    public CmdCompletions<?> getCommandCompletions() {
+        if (this.completions == null) {
+            this.completions = new BukkitCommandCompletions(this);
+        }
+        return this.completions;
     }
 
     @NotNull

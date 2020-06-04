@@ -22,17 +22,10 @@
  * SOFTWARE.
  */
 
-package io.github.portlek.commands.util;
+package io.github.portlek.commands.context;
 
-import java.util.regex.Pattern;
+import io.github.portlek.commands.CmdSender;
 
-public final class Patterns {
-
-    public static final Pattern COLON = Pattern.compile(":");
-
-    public static final Pattern SPACE = Pattern.compile(" ");
-
-    private Patterns() {
-    }
+public final class CmdCompletionContext<S extends CmdSender> {
 
 }

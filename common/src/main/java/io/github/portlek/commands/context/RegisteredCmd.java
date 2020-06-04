@@ -22,17 +22,24 @@
  * SOFTWARE.
  */
 
-package io.github.portlek.commands.util;
+package io.github.portlek.commands.context;
 
-import java.util.regex.Pattern;
+import io.github.portlek.commands.Cmd;
+import io.github.portlek.commands.CmdSender;
+import org.jetbrains.annotations.NotNull;
 
-public final class Patterns {
+public final class RegisteredCmd<C extends CmdExecutionContext<C, ? extends CmdSender>> {
 
-    public static final Pattern COLON = Pattern.compile(":");
+    @NotNull
+    private final Cmd scope;
 
-    public static final Pattern SPACE = Pattern.compile(" ");
+    public RegisteredCmd(@NotNull final Cmd scope) {
+        this.scope = scope;
+    }
 
-    private Patterns() {
+    @NotNull
+    public Cmd getScope() {
+        return this.scope;
     }
 
 }

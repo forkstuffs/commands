@@ -24,13 +24,28 @@
 
 package io.github.portlek.commands;
 
+import io.github.portlek.commands.context.CmdCompletions;
+import io.github.portlek.commands.context.CmdOperationContext;
 import io.github.portlek.commands.util.Patterns;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Stack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public interface CmdRegistry {
+
+    ThreadLocal<Stack<CmdOperationContext>> cmdOperationContext = ThreadLocal.withInitial(() -> new Stack<CmdOperationContext>() {
+        @Nullable
+        @Override
+        public synchronized CmdOperationContext peek() {
+            if (this.size() == 0) {
+                return null;
+            }
+            return super.peek();
+        }
+    });
 
     default void register(@NotNull final Cmd cmd) {
         this.register(cmd, false);
@@ -54,5 +69,10 @@ public interface CmdRegistry {
 
     @NotNull
     RootCmd createRoot(@NotNull String name);
+
+    @NotNull
+    Optional<RootCmd> root(@NotNull String name);
+
+    CmdCompletions<?> getCommandCompletions();
 
 }

@@ -22,47 +22,44 @@
  * SOFTWARE.
  */
 
-package io.github.portlek.commands;
+package io.github.portlek.commands.context;
 
-import io.github.portlek.commands.cmd.BasicCmd;
-import io.github.portlek.commands.context.RegisteredCmd;
-import java.util.Collection;
+import io.github.portlek.commands.CmdRegistry;
+import io.github.portlek.commands.CmdSender;
 import java.util.List;
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 
-public interface Cmd extends CmdPart<BasicCmd> {
+public final class CmdExecutionContext<C extends CmdExecutionContext<?, ?>, S extends CmdSender> {
 
-    String CATCHUNKNOWN = "__catchunknown";
+    private final S sender;
 
-    String DEFAULT = "__default";
+    private final RegisteredCmd cmd;
 
-    @NotNull
-    Cmd aliases(@NotNull String... aliases);
+    private final CmdParameter param;
 
-    @NotNull
-    Collection<String> aliases();
+    private final List<String> args;
 
-    void register(@NotNull CmdRegistry registry);
+    private final int index;
 
-    @NotNull
-    Map<String, RootCmd> roots();
+    private final Map<String, Object> passedArgs;
 
-    @NotNull
-    Map<String, RegisteredCmd> registeredCommands();
+    private final Map<String, String> flags;
 
-    @NotNull
-    List<String> tabComplete(@NotNull CmdSender sender, @NotNull String commandLabel, @NotNull String[] args);
+    private final CmdRegistry manager;
 
-    @NotNull
-    List<String> tabComplete(@NotNull CmdSender sender, @NotNull String commandLabel, @NotNull String[] args,
-                             boolean isAsync) throws IllegalArgumentException;
-
-    @NotNull
-    List<String> tabComplete(@NotNull CmdSender sender, @NotNull RootCmd rootCommand, @NotNull String[] args,
-                             boolean isAsync) throws IllegalArgumentException;
-
-    @NotNull
-    List<String> getCommandsForCompletion(@NotNull CmdSender sender, @NotNull String[] args);
+    CmdExecutionContext(@NotNull final RegisteredCmd cmd, @NotNull final CmdParameter param,
+                        @NotNull final S sender, @NotNull final List<String> args, final int index,
+                        @NotNull final Map<String, Object> passedArgs) {
+        this.cmd = cmd;
+        this.manager = cmd.getScope().registry().orElseThrow(() ->
+            new IllegalArgumentException("Couldn't get registry!"));
+        this.param = param;
+        this.sender = sender;
+        this.args = args;
+        this.index = index;
+        this.passedArgs = passedArgs;
+        this.flags = param.getFlags();
+    }
 
 }

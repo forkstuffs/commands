@@ -22,47 +22,48 @@
  * SOFTWARE.
  */
 
-package io.github.portlek.commands;
+package io.github.portlek.commands.context;
 
-import io.github.portlek.commands.cmd.BasicCmd;
-import io.github.portlek.commands.context.RegisteredCmd;
-import java.util.Collection;
+import io.github.portlek.commands.Cmd;
+import io.github.portlek.commands.CmdRegistry;
+import io.github.portlek.commands.CmdSender;
 import java.util.List;
-import java.util.Map;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public interface Cmd extends CmdPart<BasicCmd> {
-
-    String CATCHUNKNOWN = "__catchunknown";
-
-    String DEFAULT = "__default";
+public final class CmdOperationContext<S extends CmdSender> {
 
     @NotNull
-    Cmd aliases(@NotNull String... aliases);
+    private final CmdRegistry manager;
 
     @NotNull
-    Collection<String> aliases();
-
-    void register(@NotNull CmdRegistry registry);
+    private final S sender;
 
     @NotNull
-    Map<String, RootCmd> roots();
+    private final Cmd cmd;
 
     @NotNull
-    Map<String, RegisteredCmd> registeredCommands();
+    private final String commandLabel;
 
     @NotNull
-    List<String> tabComplete(@NotNull CmdSender sender, @NotNull String commandLabel, @NotNull String[] args);
+    private final String[] args;
 
-    @NotNull
-    List<String> tabComplete(@NotNull CmdSender sender, @NotNull String commandLabel, @NotNull String[] args,
-                             boolean isAsync) throws IllegalArgumentException;
+    private final boolean isAsync;
 
-    @NotNull
-    List<String> tabComplete(@NotNull CmdSender sender, @NotNull RootCmd rootCommand, @NotNull String[] args,
-                             boolean isAsync) throws IllegalArgumentException;
+    @Nullable
+    private List<String> enumCompletionValues;
 
-    @NotNull
-    List<String> getCommandsForCompletion(@NotNull CmdSender sender, @NotNull String[] args);
+    @Nullable
+    private RegisteredCmd registeredCmd;
+
+    CmdOperationContext(@NotNull final CmdRegistry manager, @NotNull final S sender, @NotNull final Cmd cmd,
+                        @NotNull final String commandLabel, @NotNull final String[] args, final boolean isAsync) {
+        this.manager = manager;
+        this.sender = sender;
+        this.cmd = cmd;
+        this.commandLabel = commandLabel;
+        this.args = args;
+        this.isAsync = isAsync;
+    }
 
 }

@@ -24,6 +24,64 @@
 
 package io.github.portlek.commands;
 
+import io.github.portlek.commands.context.RegisteredCmd;
+import java.util.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 public interface RootCmd {
+
+    @NotNull
+    List<Cmd> children();
+
+    void child(@NotNull Cmd cmd);
+
+    default void addChildShared(@NotNull final List<Cmd> children,
+                                @NotNull final Map<String, RegisteredCmd> subCommands, @NotNull final Cmd command) {
+        command.registeredCommands().forEach(subCommands::put);
+        children.add(command);
+    }
+
+    @Nullable
+    default String getUniquePermission() {
+        final Set<String> permissions = new HashSet<>();
+        for (final Cmd child : children()) {
+            for (final RegisteredCmd<?> value : child.registeredCommands().values()) {
+                final Set<String> requiredPermissions = value.getRequiredPermissions();
+                if (requiredPermissions.isEmpty()) {
+                    return null;
+                } else {
+                    permissions.addAll(requiredPermissions);
+                }
+            }
+        }
+        if (permissions.size() == 1) {
+            return permissions.iterator().next();
+        }
+        return null;
+    }
+
+    default List<String> getTabCompletions(@NotNull final CmdSender sender, @NotNull final String alias,
+                                           @NotNull final String[] args) {
+        return this.getTabCompletions(sender, alias, args, false);
+    }
+
+    default List<String> getTabCompletions(@NotNull final CmdSender sender, @NotNull final String alias,
+                                           @NotNull final String[] args, final boolean commandsOnly) {
+        return this.getTabCompletions(sender, alias, args, commandsOnly, false);
+    }
+
+    default List<String> getTabCompletions(@NotNull final CmdSender sender, @NotNull final String alias,
+                                           @NotNull final String[] args, final boolean commandsOnly,
+                                           final boolean isAsync) {
+        final Set<String> completions = new HashSet<>();
+        this.children().forEach(child -> {
+            if (!commandsOnly) {
+                completions.addAll(child.tabComplete(sender, this, args, isAsync));
+            }
+            completions.addAll(child.getCommandsForCompletion(sender, args));
+        });
+        return new ArrayList<>(completions);
+    }
 
 }

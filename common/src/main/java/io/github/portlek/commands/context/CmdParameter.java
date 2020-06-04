@@ -22,47 +22,20 @@
  * SOFTWARE.
  */
 
-package io.github.portlek.commands;
+package io.github.portlek.commands.context;
 
-import io.github.portlek.commands.cmd.BasicCmd;
-import io.github.portlek.commands.context.RegisteredCmd;
-import java.util.Collection;
-import java.util.List;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 
-public interface Cmd extends CmdPart<BasicCmd> {
+public final class CmdParameter {
 
-    String CATCHUNKNOWN = "__catchunknown";
-
-    String DEFAULT = "__default";
+    private final Map<String, String> flags = new HashMap<>();
 
     @NotNull
-    Cmd aliases(@NotNull String... aliases);
-
-    @NotNull
-    Collection<String> aliases();
-
-    void register(@NotNull CmdRegistry registry);
-
-    @NotNull
-    Map<String, RootCmd> roots();
-
-    @NotNull
-    Map<String, RegisteredCmd> registeredCommands();
-
-    @NotNull
-    List<String> tabComplete(@NotNull CmdSender sender, @NotNull String commandLabel, @NotNull String[] args);
-
-    @NotNull
-    List<String> tabComplete(@NotNull CmdSender sender, @NotNull String commandLabel, @NotNull String[] args,
-                             boolean isAsync) throws IllegalArgumentException;
-
-    @NotNull
-    List<String> tabComplete(@NotNull CmdSender sender, @NotNull RootCmd rootCommand, @NotNull String[] args,
-                             boolean isAsync) throws IllegalArgumentException;
-
-    @NotNull
-    List<String> getCommandsForCompletion(@NotNull CmdSender sender, @NotNull String[] args);
+    public Map<String, String> getFlags() {
+        return Collections.unmodifiableMap(this.flags);
+    }
 
 }
