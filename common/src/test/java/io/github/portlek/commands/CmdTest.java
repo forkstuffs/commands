@@ -50,7 +50,7 @@ final class CmdTest {
                     .execute(context -> {
                         // executes /test-command test-sub test-subsub
                     })))
-            .createSub(new BasicSubCmd("test-sub-2"), subCmd -> subCmd
+            .createSub("test-sub-2", subCmd -> subCmd
                 .permission("plugin.test-command.test-sub-2")
                 .type(ArgType.literal("asd", "dsa", "sdda"))
                 .execute(context -> {
