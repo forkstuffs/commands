@@ -50,19 +50,6 @@ public final class BukkitCmdRegistry implements CmdRegistry {
         this.plugin = plugin;
     }
 
-    /**
-     * Initializes the command map.
-     *
-     * @return {@link CommandMap} from the craft server.
-     */
-    @NotNull
-    private static CommandMap initializeCommandMap() {
-        return (CommandMap) new ClassOf<>(Server.class)
-            .findMethodByName("getCommandMap")
-            .flatMap(refMethod -> refMethod.of(Bukkit.getServer()).call())
-            .orElseThrow(() -> new RuntimeException("Failed to get Command Map. Commands will not function."));
-    }
-
     @Override
     public void register(@NotNull final Cmd cmd) {
         cmd.registry(this);
