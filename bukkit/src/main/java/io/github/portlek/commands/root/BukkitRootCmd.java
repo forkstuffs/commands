@@ -51,7 +51,8 @@ public final class BukkitRootCmd extends Command implements RootCmd {
     }
 
     @Override
-    public boolean execute(@NotNull final CommandSender commandSender, @NotNull final String s, final @NotNull String[] strings) {
+    public boolean execute(@NotNull final CommandSender commandSender, @NotNull final String s,
+                           @NotNull final String[] strings) {
         return false;
     }
 
