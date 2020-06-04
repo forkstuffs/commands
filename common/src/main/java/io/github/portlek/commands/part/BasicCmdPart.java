@@ -99,10 +99,9 @@ public abstract class BasicCmdPart<X extends CmdPart<?>> implements CmdPart<X> {
     @NotNull
     @Override
     public final X createSub(final @NotNull SubCmd... subcommands) {
-        final List<SubCmd> c = Arrays.stream(subcommands)
+        this.subcommands.addAll(Arrays.stream(subcommands)
             .filter(subCmd -> this.subcommands.stream().anyMatch(sub -> !sub.type().isLiteral()))
-            .collect(Collectors.toList());
-        this.subcommands.addAll(c);
+            .collect(Collectors.toList()));
         return this.self();
     }
 
