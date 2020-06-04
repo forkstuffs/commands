@@ -75,6 +75,7 @@ public final class BukkitCmdContext implements CmdContext {
         }
         for (int index = 0; index < this.args.length; index++) {
             final String arg = this.args[index];
+            final boolean islast = index == this.args.length - 1;
             
         }
         return Optional.empty();
