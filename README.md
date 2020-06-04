@@ -46,17 +46,17 @@ dependencies {
 <summary>Bukkit</summary>
 
 ```java
-final class CreatingCommandExample {
-    
-    private final Plugin plugin;
-    
-    CreatingCommandExample(@NotNull final Plugin plugin) {
+final class BukkitCmdTest {
+
+    private final JavaPlugin plugin;
+
+    BukkitCmdTest(@NotNull final JavaPlugin plugin) {
         this.plugin = plugin;
     }
 
     void creation() {
-        final BukkitCommandRegistry bukkitCommandRegistry = new BukkitCommandRegistry(this.plugin);
-        final BasicCmd testCommand = new BasicCmd("test-command")
+        final BukkitCmdRegistry registry = new BukkitCmdRegistry(this.plugin);
+        final BasicCmd command = new BasicCmd("test-command")
             .aliases("test-aliases")
             .permission("plugin.test-command.main")
             .guard(context ->
@@ -66,7 +66,7 @@ final class CreatingCommandExample {
             })
             .createSub("message", subCmd -> subCmd
                 .permission("plugin.test-command.message")
-                .executePrevious()
+                .executePrevious(true)
                 .createSub("player-argument", playerSub -> playerSub
                     .type(BukkitArgType.players())
                     .execute(context -> {
@@ -88,9 +88,9 @@ final class CreatingCommandExample {
                 .execute(context -> {
                     // executes /test-command [asd|dsa|sdda]
                 }));
-        bukkitCommandRegistry.register(testCommand);
+        registry.register(command);
     }
-    
+
 }
 ```
 </details>

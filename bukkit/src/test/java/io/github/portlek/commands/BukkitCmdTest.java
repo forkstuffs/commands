@@ -27,13 +27,14 @@ package io.github.portlek.commands;
 import io.github.portlek.commands.cmd.BasicCmd;
 import io.github.portlek.commands.registry.BukkitCmdRegistry;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 final class BukkitCmdTest {
 
-    private final Plugin plugin;
+    private final JavaPlugin plugin;
 
-    BukkitCmdTest(@NotNull final Plugin plugin) {
+    BukkitCmdTest(@NotNull final JavaPlugin plugin) {
         this.plugin = plugin;
     }
 

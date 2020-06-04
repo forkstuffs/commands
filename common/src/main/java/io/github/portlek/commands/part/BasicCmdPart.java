@@ -28,6 +28,7 @@ import io.github.portlek.commands.*;
 import io.github.portlek.commands.subcmd.BasicSubCmd;
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -98,9 +99,10 @@ public abstract class BasicCmdPart<X extends CmdPart<?>> implements CmdPart<X> {
     @NotNull
     @Override
     public final X createSub(final @NotNull SubCmd... subcommands) {
-        Arrays.stream(subcommands)
-            .filter(subCmd -> subCmd.type());
-        this.subcommands.addAll();
+        final List<SubCmd> c = Arrays.stream(subcommands)
+            .filter(subCmd -> this.subcommands.stream().anyMatch(sub -> !sub.type().isLiteral()))
+            .collect(Collectors.toList());
+        this.subcommands.addAll(c);
         return this.self();
     }
 
