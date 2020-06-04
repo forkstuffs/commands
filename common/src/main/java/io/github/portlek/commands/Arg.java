@@ -22,49 +22,8 @@
  * SOFTWARE.
  */
 
-package io.github.portlek.commands.context;
+package io.github.portlek.commands;
 
-import io.github.portlek.commands.Cmd;
-import io.github.portlek.commands.CmdContext;
-import io.github.portlek.commands.CmdSender;
-import io.github.portlek.commands.util.UnmodifiableLinkedList;
-import java.util.LinkedList;
-import org.bukkit.command.CommandSender;
-import org.jetbrains.annotations.NotNull;
-
-public final class BukkitCmdContext implements CmdContext {
-
-    @NotNull
-    private final Cmd cmd;
-
-    @NotNull
-    private final CmdSender sender;
-
-    @NotNull
-    private final LinkedList<String> args;
-
-    public BukkitCmdContext(@NotNull final Cmd cmd, @NotNull final CommandSender sender,
-                            @NotNull final LinkedList<String> args) {
-        this.cmd = cmd;
-        this.sender = new BukkitCmdSender(sender);
-        this.args = args;
-    }
-
-    @NotNull
-    @Override
-    public CmdSender sender() {
-        return this.sender;
-    }
-
-    @NotNull
-    @Override
-    public Cmd cmd() {
-        return this.cmd;
-    }
-
-    @Override
-    public LinkedList<String> args() {
-        return new UnmodifiableLinkedList<>(this.args);
-    }
+public interface Arg {
 
 }

@@ -26,6 +26,7 @@ package io.github.portlek.commands;
 
 import io.github.portlek.commands.cmd.BasicCmd;
 import io.github.portlek.commands.registry.BukkitCmdRegistry;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -53,12 +54,20 @@ final class BukkitCmdTest {
                 .permission("plugin.test-command.giveseed")
                 .executePrevious(true)
                 .createSub("seeds", seedssub -> seedssub
-                    .type(ArgType.text())
+                    .type(ArgType.text("<seed-name>"))
                     .executePrevious(true)
                     .createSub("player-argument", playersub -> playersub
                         .type(BukkitArgType.players())
                         .execute(context -> {
-                            
+                            // executes /test-command giveseed <seed-name> <player> [amount]
+                            final int size = context.args().size();
+                            final int amount;
+                            final Player player;
+                            if (size == 4) {
+                                amount = context.previous();
+                            } else {
+
+                            }
                         })
                         .createSub("amount-argument", amountsub -> amountsub
                             .type(ArgType.integer("[amount]"))

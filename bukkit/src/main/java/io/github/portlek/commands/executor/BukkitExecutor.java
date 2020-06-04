@@ -55,7 +55,7 @@ public final class BukkitExecutor implements TabExecutor {
             this.cmd.executes().forEach(execute -> execute.accept(context));
             return true;
         }
-        final Optional<SubCmd> optional = context.current(false);
+        final Optional<SubCmd> optional = context.current();
         if (!optional.isPresent()) {
             return true;
         }

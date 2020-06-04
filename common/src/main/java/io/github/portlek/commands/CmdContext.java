@@ -37,23 +37,36 @@ public interface CmdContext {
     Cmd cmd();
 
     @NotNull
-    default String arg() {
+    default Arg arg() {
         return this.args().getLast();
     }
 
     @NotNull
-    LinkedList<String> args();
+    LinkedList<Arg> args();
 
     @NotNull
-    default Optional<SubCmd> current(final boolean silent) {
-        final LinkedList<String> args = this.args();
+    default Arg previous(final int index) {
+        if (index < 1) {
+            throw new UnsupportedOperationException("The index must bigger than 0!");
+        }
+        return this.args().get(this.args().size() - index);
+    }
+
+    @NotNull
+    default Arg previous() {
+        return this.previous(1);
+    }
+
+    @NotNull
+    default Optional<SubCmd> current() {
+        final LinkedList<Arg> args = this.args();
         if (args.isEmpty()) {
             return Optional.empty();
         }
         for (int index = 0; index < args.size(); index++) {
-            final String arg = args.get(index);
+            final Arg arg = args.get(index);
             final boolean islast = index == args.size() - 1;
-            
+
         }
         return Optional.empty();
     }
