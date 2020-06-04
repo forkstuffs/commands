@@ -25,30 +25,24 @@
 package io.github.portlek.commands.argtype;
 
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Collection;
+import java.util.Collections;
 import org.jetbrains.annotations.NotNull;
 
-public final class PlaceableType<T> extends ArgTypeEnvelope {
+public final class LiteralType extends ArgTypeEnvelope {
 
-    private final Class<T> tclass;
-
-    public PlaceableType(@NotNull final Class<T> tclass, @NotNull final List<String> examples) {
-        super(context -> examples);
-        this.tclass = tclass;
+    public LiteralType(@NotNull final Collection<String> literals) {
+        super(context ->
+            Collections.unmodifiableCollection(literals));
     }
 
-    public PlaceableType(@NotNull final Class<T> tclass, @NotNull final String... examples) {
-        this(tclass, Arrays.stream(examples)
-            .map(String::valueOf)
-            .collect(Collectors.toList()));
+    public LiteralType(@NotNull final String... literals) {
+        this(Arrays.asList(literals));
     }
 
-    @SafeVarargs
-    public PlaceableType(@NotNull final Class<T> tclass, @NotNull final T... examples) {
-        this(tclass, Arrays.stream(examples)
-            .map(String::valueOf)
-            .collect(Collectors.toList()));
+    @Override
+    public boolean isLiteral() {
+        return true;
     }
 
 }

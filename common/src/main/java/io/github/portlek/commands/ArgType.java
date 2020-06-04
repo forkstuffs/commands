@@ -24,9 +24,11 @@
 
 package io.github.portlek.commands;
 
-import io.github.portlek.commands.argtype.LiteralStringType;
-import io.github.portlek.commands.argtype.PlaceableType;
+import io.github.portlek.commands.argtype.LiteralType;
+import io.github.portlek.commands.argtype.NonLiteralType;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
 
@@ -34,22 +36,32 @@ public interface ArgType extends Function<CmdContext, Collection<String>> {
 
     @NotNull
     static ArgType literal(@NotNull final String... literals) {
-        return new LiteralStringType(literals);
+        return new LiteralType(literals);
     }
 
     @NotNull
     static ArgType integer(@NotNull final String... examples) {
-        return new PlaceableType<>(Integer.class, examples);
+        return new NonLiteralType<>(Integer.class, examples);
     }
 
     @NotNull
     static ArgType integer(@NotNull final Integer... examples) {
-        return new PlaceableType<>(Integer.class, examples);
+        return new NonLiteralType<>(Integer.class, examples);
     }
 
     @NotNull
     static ArgType integer() {
         return ArgType.integer(1, 10, 100);
+    }
+
+    @NotNull
+    static ArgType text(@NotNull final List<String> examples) {
+        return new NonLiteralType<>(String.class, examples);
+    }
+
+    @NotNull
+    static ArgType text(@NotNull final String... examples) {
+        return ArgType.text(Arrays.asList(examples));
     }
 
     default boolean isLiteral() {

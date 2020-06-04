@@ -24,25 +24,34 @@
 
 package io.github.portlek.commands.argtype;
 
+import io.github.portlek.commands.ArgType;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
 
-public final class LiteralStringType extends ArgTypeEnvelope {
+public final class NonLiteralType<T> extends ArgTypeEnvelope {
 
-    public LiteralStringType(@NotNull final Collection<String> literals) {
-        super(context ->
-            Collections.unmodifiableCollection(literals));
+    private final Class<T> tclass;
+
+    public NonLiteralType(@NotNull final Class<T> tclass, @NotNull final ArgType type) {
+        super(type);
+        this.tclass = tclass;
     }
 
-    public LiteralStringType(@NotNull final String... literals) {
-        this(Arrays.asList(literals));
+    public NonLiteralType(@NotNull final Class<T> tclass, @NotNull final Collection<String> examples) {
+        this(tclass, context -> examples);
     }
 
-    @Override
-    public boolean isLiteral() {
-        return !super.isLiteral();
+    public NonLiteralType(@NotNull final Class<T> tclass, @NotNull final String... examples) {
+        this(tclass, Arrays.asList(examples));
+    }
+
+    @SafeVarargs
+    public NonLiteralType(@NotNull final Class<T> tclass, @NotNull final T... examples) {
+        this(tclass, Arrays.stream(examples)
+            .map(String::valueOf)
+            .collect(Collectors.toList()));
     }
 
 }

@@ -27,7 +27,7 @@ package io.github.portlek.commands.subcmd;
 import io.github.portlek.commands.ArgType;
 import io.github.portlek.commands.CmdPart;
 import io.github.portlek.commands.SubCmd;
-import io.github.portlek.commands.argtype.LiteralStringType;
+import io.github.portlek.commands.argtype.LiteralType;
 import io.github.portlek.commands.part.BasicCmdPart;
 import org.jetbrains.annotations.NotNull;
 
@@ -41,7 +41,7 @@ public final class BasicSubCmd extends BasicCmdPart<BasicSubCmd> implements SubC
 
     public BasicSubCmd(@NotNull final String name, final CmdPart<?> previous) {
         super(name);
-        this.type = new LiteralStringType(name);
+        this.type = new LiteralType(name);
         this.previous = previous;
     }
 

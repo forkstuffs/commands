@@ -49,39 +49,60 @@ final class BukkitCmdTest {
             .createSub("help", subCmd -> subCmd
                 .permission("plugin.test-command.help")
                 .executePrevious(true))
+            .createSub("giveseed", seedsub -> seedsub
+                .permission("plugin.test-command.giveseed")
+                .executePrevious(true)
+                .createSub("seeds", seedssub -> seedssub
+                    .type(ArgType.text())
+                    .executePrevious(true)
+                    .createSub("player-argument", playersub -> playersub
+                        .type(BukkitArgType.players())
+                        .execute(context -> {
+                            
+                        })
+                        .createSub("amount-argument", amountsub -> amountsub
+                            .type(ArgType.integer("[amount]"))
+                            .executePrevious(true)))))
+            .createSub("reload", reloadsub -> reloadsub
+                .permission("plugin.test-command.reload")
+                .execute(context -> {
+                    // executes /test-command reload
+                }))
             .createSub("list", subCmd -> subCmd
                 .executePrevious(true)
-                .createSub("page-argument", page -> page
+                .createSub("page-argument", pagesub -> pagesub
                     .type(ArgType.integer("[page]"))
 
                     .execute(context -> {
                         // executes /test-command list [page]
                     })))
-
-            .createSub("message", subCmd -> subCmd
-                .permission("plugin.test-command.message")
+            .createSub("perm", subCmd -> subCmd
+                .permission("plugin.test-command.perm")
                 .executePrevious(true)
-                .createSub("player-argument", playerSub -> playerSub
-                    .type(BukkitArgType.players())
-                    .execute(context -> {
-                        // executes /test-command message <online-players>
-                    })))
-            .createSub("test-sub", sub -> sub
-                .permission("plugin.test-command.test-sub")
-                .execute(context -> {
-                    // executes /test-command test-sub
-                })
-                .createSub("test-sub-sub", subsub -> subsub
-                    .permission("plugin.test-command.test-sub.sub")
-                    .execute(context -> {
-                        // executes /test-command test-sub test-subsub
-                    })))
-            .createSub("test-sub-2", subCmd -> subCmd
-                .permission("plugin.test-command.test-sub-2")
-                .type(ArgType.literal("asd", "dsa", "sdda"))
-                .execute(context -> {
-                    // executes /test-command [asd|dsa|sdda]
-                }));
+                .createSub("list", listsub -> listsub
+                    .permission("plugin.test-command.perm.list")
+                    .executePrevious(true)
+                    .createSub("page-argument", pagesub -> pagesub
+                        .type(ArgType.integer("[page]"))
+                        .execute(context -> {
+                            // executes test-command perm list [page]
+                        })))
+                .createSub("add", addsub -> addsub
+                    .permission("plugin.test-command.perm.add")
+                    .executePrevious(true)
+                    .createSub("player-argument", playersub -> playersub
+                        .type(BukkitArgType.players())
+                        .execute(context -> {
+                            // executes test-command perm add <player>
+                        })))
+                .createSub("remove", removesub -> removesub
+                    .permission("plugin.test-command.perm.remove")
+                    .executePrevious(true)
+                    .createSub("player-argument", playersub -> playersub
+                        .type(BukkitArgType.players())
+                        .execute(context -> {
+                            // executes test-command perm remove <player>
+                        }))));
         registry.register(command);
     }
 
