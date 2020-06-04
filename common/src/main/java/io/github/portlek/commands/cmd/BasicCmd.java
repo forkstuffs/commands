@@ -31,14 +31,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public final class BasicCmd extends BasicCmdPart<BasicCmd> implements Cmd {
 
     private final Collection<String> aliases = new ArrayList<>();
-
-    @Nullable
-    private CmdRegistry registry;
 
     public BasicCmd(@NotNull final String name) {
         super(name);
@@ -63,8 +59,7 @@ public final class BasicCmd extends BasicCmdPart<BasicCmd> implements Cmd {
     }
 
     private void onRegister(@NotNull final CmdRegistry registry, @NotNull final String name) {
-        this.registry = registry;
-
+        this.registry(registry);
     }
 
 }

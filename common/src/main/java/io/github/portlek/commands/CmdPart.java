@@ -24,6 +24,7 @@
 
 package io.github.portlek.commands;
 
+import java.util.Optional;
 import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -56,5 +57,10 @@ public interface CmdPart<X extends CmdPart<?>> extends Self<X>, Named {
 
     @NotNull
     X executePrevious();
+
+    @NotNull
+    Optional<CmdRegistry> registry();
+
+    X registry(@NotNull CmdRegistry registry);
 
 }

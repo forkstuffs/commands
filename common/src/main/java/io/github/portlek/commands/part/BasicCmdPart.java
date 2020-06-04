@@ -59,12 +59,6 @@ public abstract class BasicCmdPart<X extends CmdPart<?>> implements CmdPart<X> {
 
     @NotNull
     @Override
-    public final String getName() {
-        return this.name;
-    }
-
-    @NotNull
-    @Override
     public final X description(@Nullable final String description) {
         this.description = description;
         return this.self();
@@ -106,19 +100,13 @@ public abstract class BasicCmdPart<X extends CmdPart<?>> implements CmdPart<X> {
     @NotNull
     @Override
     public final X guard(@NotNull final String guardid) {
-        return this.guard(context -> {
-            final Optional<CmdRegistry> optional = Optional.ofNullable(this.registry);
-            if (!optional.isPresent()) {
-                return false;
-            }
-            final CmdRegistry cmdRegistry = optional.get();
-            final Optional optionalguard = cmdRegistry.getGuard(guardid);
-            if (!optionalguard.isPresent()) {
-
-                return true;
-            }
-            return true;
-        });
+        return this.guard(context ->
+            Optional.ofNullable(this.registry)
+                .map(cmdRegistry -> cmdRegistry
+                    .getGuard(guardid)
+                    .map(guard -> guard.test(context))
+                    .orElse(true))
+                .orElse(false));
     }
 
     @NotNull
@@ -133,6 +121,24 @@ public abstract class BasicCmdPart<X extends CmdPart<?>> implements CmdPart<X> {
     public final X executePrevious() {
         this.executePrevious = true;
         return this.self();
+    }
+
+    @NotNull
+    @Override
+    public final Optional<CmdRegistry> registry() {
+        return Optional.ofNullable(this.registry);
+    }
+
+    @Override
+    public final X registry(@NotNull final CmdRegistry registry) {
+        this.registry = registry;
+        return this.self();
+    }
+
+    @NotNull
+    @Override
+    public final String getName() {
+        return this.name;
     }
 
 }

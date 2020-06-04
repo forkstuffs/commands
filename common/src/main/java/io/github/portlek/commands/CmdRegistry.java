@@ -35,6 +35,6 @@ public interface CmdRegistry {
     void registerGuard(@NotNull String guardid, @NotNull Guard guard);
 
     @NotNull
-    Optional getGuard(@NotNull String guardid);
+    Optional<Guard> getGuard(@NotNull String guardid);
 
 }
