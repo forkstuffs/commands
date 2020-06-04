@@ -26,7 +26,6 @@ package io.github.portlek.commands;
 
 import io.github.portlek.commands.cmd.BasicCmd;
 import java.util.Collection;
-import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 
 public interface Cmd extends CmdPart<BasicCmd> {
@@ -36,10 +35,5 @@ public interface Cmd extends CmdPart<BasicCmd> {
 
     @NotNull
     Collection<String> aliases();
-
-    void register(@NotNull CmdRegistry registry);
-
-    @NotNull
-    Map<String, RootCmd> roots();
 
 }

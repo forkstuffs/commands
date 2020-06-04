@@ -22,8 +22,36 @@
  * SOFTWARE.
  */
 
-package io.github.portlek.commands;
+package io.github.portlek.commands.executor;
 
-public interface RootCmd {
+import io.github.portlek.commands.Cmd;
+import java.util.List;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+public final class BukkitExecutor implements TabExecutor {
+
+    @NotNull
+    private final Cmd cmd;
+
+    public BukkitExecutor(@NotNull final Cmd cmd) {
+        this.cmd = cmd;
+    }
+
+    @Override
+    public boolean onCommand(@NotNull final CommandSender commandSender, @NotNull final Command command,
+                             @NotNull final String s, final @NotNull String[] strings) {
+        return false;
+    }
+
+    @Nullable
+    @Override
+    public List<String> onTabComplete(@NotNull final CommandSender commandSender, @NotNull final Command command,
+                                      @NotNull final String s, final @NotNull String[] strings) {
+        return null;
+    }
 
 }

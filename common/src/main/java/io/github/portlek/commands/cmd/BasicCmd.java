@@ -26,14 +26,14 @@ package io.github.portlek.commands.cmd;
 
 import io.github.portlek.commands.Cmd;
 import io.github.portlek.commands.CmdRegistry;
-import io.github.portlek.commands.RootCmd;
 import io.github.portlek.commands.part.BasicCmdPart;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import org.jetbrains.annotations.NotNull;
 
 public final class BasicCmd extends BasicCmdPart<BasicCmd> implements Cmd {
-
-    private final Map<String, RootCmd> roots = new HashMap<>();
 
     private final Collection<String> aliases = new ArrayList<>();
 
@@ -52,20 +52,6 @@ public final class BasicCmd extends BasicCmdPart<BasicCmd> implements Cmd {
     @Override
     public Collection<String> aliases() {
         return Collections.unmodifiableCollection(this.aliases);
-    }
-
-    @Override
-    public void register(@NotNull final CmdRegistry registry) {
-        this.roots.clear();
-        this.roots.put(this.getName(), registry.obtainRoot(this.getName()));
-        this.aliases().forEach(s ->
-            this.roots.put(s, registry.createRoot(s)));
-    }
-
-    @NotNull
-    @Override
-    public Map<String, RootCmd> roots() {
-        return Collections.unmodifiableMap(this.roots);
     }
 
     @NotNull

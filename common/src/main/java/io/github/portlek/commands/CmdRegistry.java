@@ -24,35 +24,16 @@
 
 package io.github.portlek.commands;
 
-import io.github.portlek.commands.util.Patterns;
-import java.util.Locale;
-import java.util.Map;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 public interface CmdRegistry {
 
-    default void register(@NotNull final Cmd cmd) {
-        this.register(cmd, false);
-    }
-
-    @NotNull
-    Map<String, RootCmd> roots();
-
-    void register(@NotNull Cmd cmd, boolean force);
+    void register(@NotNull Cmd cmd);
 
     void registerGuard(@NotNull String guardid, @NotNull Guard guard);
 
     @NotNull
     Optional<Guard> getGuard(@NotNull String guardid);
-
-    @NotNull
-    default RootCmd obtainRoot(@NotNull final String name) {
-        return this.roots()
-            .computeIfAbsent(Patterns.SPACE.split(name.toLowerCase(Locale.ENGLISH), 2)[0], this::createRoot);
-    }
-
-    @NotNull
-    RootCmd createRoot(@NotNull String name);
 
 }
