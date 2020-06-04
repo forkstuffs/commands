@@ -73,10 +73,9 @@ public final class BukkitCmdContext implements CmdContext {
         if (this.args.length == 0) {
             return Optional.empty();
         }
-        for (final String arg : this.getAllArgs()) {
-            for (final SubCmd sub : this.cmd.subs()) {
-
-            }
+        for (int index = 0; index < this.args.length; index++) {
+            final String arg = this.args[index];
+            
         }
         return Optional.empty();
     }
