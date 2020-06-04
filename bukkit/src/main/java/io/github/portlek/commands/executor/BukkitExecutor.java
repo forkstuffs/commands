@@ -28,9 +28,7 @@ import io.github.portlek.commands.Cmd;
 import io.github.portlek.commands.CmdContext;
 import io.github.portlek.commands.SubCmd;
 import io.github.portlek.commands.context.BukkitCmdContext;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -46,9 +44,9 @@ public final class BukkitExecutor implements TabExecutor {
     }
 
     @Override
-    public boolean onCommand(@NotNull final CommandSender commandSender, @NotNull final Command command,
+    public boolean onCommand(@NotNull final CommandSender sender, @NotNull final Command command,
                              @NotNull final String label, @NotNull final String[] args) {
-        final CmdContext context = new BukkitCmdContext(this.cmd, commandSender, args);
+        final CmdContext context = new BukkitCmdContext(this.cmd, sender, new LinkedList<>(Arrays.asList(args)));
         if (this.cmd.guards().stream().anyMatch(guard ->
             guard.negate().test(context))) {
             return true;
@@ -57,7 +55,7 @@ public final class BukkitExecutor implements TabExecutor {
             this.cmd.executes().forEach(execute -> execute.accept(context));
             return true;
         }
-        final Optional<SubCmd> optional = context.getCurrentSub(false);
+        final Optional<SubCmd> optional = context.current(false);
         if (!optional.isPresent()) {
             return true;
         }
@@ -73,8 +71,8 @@ public final class BukkitExecutor implements TabExecutor {
 
     @NotNull
     @Override
-    public List<String> onTabComplete(@NotNull final CommandSender commandSender, @NotNull final Command command,
-                                      @NotNull final String s, @NotNull final String[] strings) {
+    public List<String> onTabComplete(@NotNull final CommandSender sender, @NotNull final Command command,
+                                      @NotNull final String label, @NotNull final String[] args) {
         return Collections.emptyList();
     }
 

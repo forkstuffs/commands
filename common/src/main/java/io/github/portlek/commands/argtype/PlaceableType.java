@@ -22,40 +22,33 @@
  * SOFTWARE.
  */
 
-package io.github.portlek.commands;
+package io.github.portlek.commands.argtype;
 
-import java.util.LinkedList;
-import java.util.Optional;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
 
-public interface CmdContext {
+public final class PlaceableType<T> extends ArgTypeEnvelope {
 
-    @NotNull
-    CmdSender sender();
+    private final Class<T> tclass;
 
-    @NotNull
-    Cmd cmd();
-
-    @NotNull
-    default String arg() {
-        return this.args().getLast();
+    public PlaceableType(@NotNull final Class<T> tclass, @NotNull final List<String> examples) {
+        super(context -> examples);
+        this.tclass = tclass;
     }
 
-    @NotNull
-    LinkedList<String> args();
+    public PlaceableType(@NotNull final Class<T> tclass, @NotNull final String... examples) {
+        this(tclass, Arrays.stream(examples)
+            .map(String::valueOf)
+            .collect(Collectors.toList()));
+    }
 
-    @NotNull
-    default Optional<SubCmd> current(final boolean silent) {
-        final LinkedList<String> args = this.args();
-        if (args.isEmpty()) {
-            return Optional.empty();
-        }
-        for (int index = 0; index < args.size(); index++) {
-            final String arg = args.get(index);
-            final boolean islast = index == args.size() - 1;
-            
-        }
-        return Optional.empty();
+    @SafeVarargs
+    public PlaceableType(@NotNull final Class<T> tclass, @NotNull final T... examples) {
+        this(tclass, Arrays.stream(examples)
+            .map(String::valueOf)
+            .collect(Collectors.toList()));
     }
 
 }

@@ -27,8 +27,9 @@ package io.github.portlek.commands.context;
 import io.github.portlek.commands.Cmd;
 import io.github.portlek.commands.CmdContext;
 import io.github.portlek.commands.CmdSender;
-import io.github.portlek.commands.SubCmd;
-import java.util.Optional;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -41,9 +42,10 @@ public final class BukkitCmdContext implements CmdContext {
     private final CmdSender sender;
 
     @NotNull
-    private final String[] args;
+    private final LinkedList<String> args;
 
-    public BukkitCmdContext(@NotNull final Cmd cmd, @NotNull final CommandSender sender, final @NotNull String[] args) {
+    public BukkitCmdContext(@NotNull final Cmd cmd, @NotNull final CommandSender sender,
+                            @NotNull final LinkedList<String> args) {
         this.cmd = cmd;
         this.sender = new BukkitCmdSender(sender);
         this.args = args;
@@ -51,34 +53,19 @@ public final class BukkitCmdContext implements CmdContext {
 
     @NotNull
     @Override
-    public CmdSender getSender() {
+    public CmdSender sender() {
         return this.sender;
     }
 
     @NotNull
     @Override
-    public String getArg() {
-        return this.args[this.args.length - 1];
+    public Cmd cmd() {
+        return this.cmd;
     }
 
-    @NotNull
     @Override
-    public String[] getAllArgs() {
-        return this.args.clone();
-    }
-
-    @NotNull
-    @Override
-    public Optional<SubCmd> getCurrentSub(final boolean silent) {
-        if (this.args.length == 0) {
-            return Optional.empty();
-        }
-        for (int index = 0; index < this.args.length; index++) {
-            final String arg = this.args[index];
-            final boolean islast = index == this.args.length - 1;
-            
-        }
-        return Optional.empty();
+    public LinkedList<String> args() {
+        return this.args;
     }
 
 }

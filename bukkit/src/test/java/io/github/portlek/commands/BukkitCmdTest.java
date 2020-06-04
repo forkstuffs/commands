@@ -26,7 +26,6 @@ package io.github.portlek.commands;
 
 import io.github.portlek.commands.cmd.BasicCmd;
 import io.github.portlek.commands.registry.BukkitCmdRegistry;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -40,14 +39,25 @@ final class BukkitCmdTest {
 
     void creation() {
         final BukkitCmdRegistry registry = new BukkitCmdRegistry(this.plugin);
-        final BasicCmd command = new BasicCmd("test-command")
-            .aliases("test-aliases")
+        final BasicCmd command = new BasicCmd("test-command", "test-aliases")
             .permission("plugin.test-command.main")
             .guard(context ->
                 true)
             .execute(context -> {
                 // executes /test-command
             })
+            .createSub("help", subCmd -> subCmd
+                .permission("plugin.test-command.help")
+                .executePrevious(true))
+            .createSub("list", subCmd -> subCmd
+                .executePrevious(true)
+                .createSub("page-argument", page -> page
+                    .type(ArgType.integer("[page]"))
+
+                    .execute(context -> {
+                        // executes /test-command list [page]
+                    })))
+
             .createSub("message", subCmd -> subCmd
                 .permission("plugin.test-command.message")
                 .executePrevious(true)

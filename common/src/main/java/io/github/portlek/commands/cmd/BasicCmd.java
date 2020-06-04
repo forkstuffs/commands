@@ -25,7 +25,6 @@
 package io.github.portlek.commands.cmd;
 
 import io.github.portlek.commands.Cmd;
-import io.github.portlek.commands.CmdRegistry;
 import io.github.portlek.commands.part.BasicCmdPart;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,6 +38,11 @@ public final class BasicCmd extends BasicCmdPart<BasicCmd> implements Cmd {
 
     public BasicCmd(@NotNull final String name) {
         super(name);
+    }
+
+    public BasicCmd(@NotNull final String name, final String... aliases) {
+        super(name);
+        this.aliases(aliases);
     }
 
     @NotNull

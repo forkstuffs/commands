@@ -29,14 +29,14 @@ import java.util.Collection;
 import java.util.Collections;
 import org.jetbrains.annotations.NotNull;
 
-public final class LiteralType extends ArgTypeEnvelope {
+public final class LiteralStringType extends ArgTypeEnvelope {
 
-    public LiteralType(@NotNull final Collection<String> literals) {
+    public LiteralStringType(@NotNull final Collection<String> literals) {
         super(context ->
             Collections.unmodifiableCollection(literals));
     }
 
-    public LiteralType(@NotNull final String... literals) {
+    public LiteralStringType(@NotNull final String... literals) {
         this(Arrays.asList(literals));
     }
 
