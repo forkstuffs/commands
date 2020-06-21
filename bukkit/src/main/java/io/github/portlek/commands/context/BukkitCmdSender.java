@@ -25,16 +25,14 @@
 package io.github.portlek.commands.context;
 
 import io.github.portlek.commands.CmdSender;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
+@RequiredArgsConstructor
 public final class BukkitCmdSender implements CmdSender {
 
     @NotNull
     private final CommandSender sender;
-
-    public BukkitCmdSender(@NotNull final CommandSender sender) {
-        this.sender = sender;
-    }
 
 }

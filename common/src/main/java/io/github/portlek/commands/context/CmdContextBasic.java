@@ -22,46 +22,44 @@
  * SOFTWARE.
  */
 
-package io.github.portlek.commands.cmd;
+package io.github.portlek.commands.context;
 
+import io.github.portlek.commands.Arg;
 import io.github.portlek.commands.Cmd;
-import io.github.portlek.commands.part.BasicCmdPart;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
+import io.github.portlek.commands.CmdContext;
+import io.github.portlek.commands.CmdSender;
+import io.github.portlek.commands.util.UnmodifiableLinkedList;
+import java.util.LinkedList;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
-public final class BasicCmd extends BasicCmdPart<BasicCmd> implements Cmd {
+@RequiredArgsConstructor
+public final class CmdContextBasic implements CmdContext {
 
-    private final Collection<String> aliases = new ArrayList<>();
+    @NotNull
+    private final Cmd cmd;
 
-    public BasicCmd(@NotNull final String name) {
-        super(name);
-    }
+    @NotNull
+    private final CmdSender sender;
 
-    public BasicCmd(@NotNull final String name, final String... aliases) {
-        super(name);
-        this.aliases(aliases);
+    @NotNull
+    private final LinkedList<Arg> args;
+
+    @NotNull
+    @Override
+    public CmdSender sender() {
+        return this.sender;
     }
 
     @NotNull
     @Override
-    public Cmd aliases(@NotNull final String... aliases) {
-        this.aliases.addAll(Arrays.asList(aliases));
-        return this.self();
+    public Cmd cmd() {
+        return this.cmd;
     }
 
-    @NotNull
     @Override
-    public Collection<String> aliases() {
-        return Collections.unmodifiableCollection(this.aliases);
-    }
-
-    @NotNull
-    @Override
-    public BasicCmd self() {
-        return this;
+    public LinkedList<Arg> args() {
+        return new UnmodifiableLinkedList<>(this.args);
     }
 
 }

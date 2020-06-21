@@ -27,16 +27,14 @@ package io.github.portlek.commands.argtype;
 import io.github.portlek.commands.ArgType;
 import io.github.portlek.commands.CmdContext;
 import java.util.Collection;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+@RequiredArgsConstructor
 public abstract class ArgTypeEnvelope implements ArgType {
 
     @NotNull
     private final ArgType type;
-
-    protected ArgTypeEnvelope(@NotNull final ArgType type) {
-        this.type = type;
-    }
 
     @Override
     public final Collection<String> apply(final CmdContext context) {

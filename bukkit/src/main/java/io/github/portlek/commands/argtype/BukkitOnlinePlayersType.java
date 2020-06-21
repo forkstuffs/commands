@@ -31,6 +31,7 @@ import org.bukkit.entity.Player;
 public final class BukkitOnlinePlayersType extends ArgTypeEnvelope {
 
     public BukkitOnlinePlayersType() {
+        // TODO Add sorting.
         super(context ->
             Bukkit.getOnlinePlayers().stream()
                 .map(Player::getName)

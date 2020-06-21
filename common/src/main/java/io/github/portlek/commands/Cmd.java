@@ -24,11 +24,11 @@
 
 package io.github.portlek.commands;
 
-import io.github.portlek.commands.cmd.BasicCmd;
+import io.github.portlek.commands.cmd.CmdBasic;
 import java.util.Collection;
 import org.jetbrains.annotations.NotNull;
 
-public interface Cmd extends CmdPart<BasicCmd> {
+public interface Cmd extends CmdPart<CmdBasic> {
 
     @NotNull
     Cmd aliases(@NotNull String... aliases);

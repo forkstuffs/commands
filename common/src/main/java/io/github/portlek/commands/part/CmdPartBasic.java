@@ -25,14 +25,14 @@
 package io.github.portlek.commands.part;
 
 import io.github.portlek.commands.*;
-import io.github.portlek.commands.subcmd.BasicSubCmd;
+import io.github.portlek.commands.subcmd.SubCmdBasic;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class BasicCmdPart<X extends CmdPart<?>> implements CmdPart<X> {
+public abstract class CmdPartBasic<X extends CmdPart<?>> implements CmdPart<X> {
 
     private final List<SubCmd> subcommands = new ArrayList<>();
 
@@ -54,7 +54,7 @@ public abstract class BasicCmdPart<X extends CmdPart<?>> implements CmdPart<X> {
     @Nullable
     private CmdRegistry registry;
 
-    protected BasicCmdPart(@NotNull final String name) {
+    protected CmdPartBasic(@NotNull final String name) {
         this.name = name.toLowerCase(Locale.ENGLISH);
     }
 
@@ -87,7 +87,7 @@ public abstract class BasicCmdPart<X extends CmdPart<?>> implements CmdPart<X> {
     @NotNull
     @Override
     public final X createSub(@NotNull final String partcommand, @NotNull final Function<SubCmd, SubCmd> subfunc) {
-        return this.createSub(new BasicSubCmd(partcommand, this), subfunc);
+        return this.createSub(new SubCmdBasic(partcommand, this), subfunc);
     }
 
     @NotNull

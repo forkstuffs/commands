@@ -31,16 +31,16 @@ import org.jetbrains.annotations.NotNull;
 
 public final class UnmodifiableLinkedList<T> extends LinkedList<T> {
 
-    private boolean finished = false;
+    private boolean initiated = false;
 
     public UnmodifiableLinkedList(@NotNull final Collection<? extends T> c) {
         super(c);
-        this.finished = true;
+        this.initiated = true;
     }
 
     @Override
     public boolean removeAll(final Collection<?> c) {
-        if (this.finished) {
+        if (this.initiated) {
             throw new UnsupportedOperationException("You can't edit the list that's unmodifiable!");
         }
         return super.removeAll(c);
@@ -48,7 +48,7 @@ public final class UnmodifiableLinkedList<T> extends LinkedList<T> {
 
     @Override
     public boolean removeIf(final Predicate<? super T> filter) {
-        if (this.finished) {
+        if (this.initiated) {
             throw new UnsupportedOperationException("You can't edit the list that's unmodifiable!");
         }
         return super.removeIf(filter);
@@ -56,7 +56,7 @@ public final class UnmodifiableLinkedList<T> extends LinkedList<T> {
 
     @Override
     public T removeFirst() {
-        if (this.finished) {
+        if (this.initiated) {
             throw new UnsupportedOperationException("You can't edit the list that's unmodifiable!");
         }
         return super.removeFirst();
@@ -64,7 +64,7 @@ public final class UnmodifiableLinkedList<T> extends LinkedList<T> {
 
     @Override
     public T removeLast() {
-        if (this.finished) {
+        if (this.initiated) {
             throw new UnsupportedOperationException("You can't edit the list that's unmodifiable!");
         }
         return super.removeLast();
@@ -72,7 +72,7 @@ public final class UnmodifiableLinkedList<T> extends LinkedList<T> {
 
     @Override
     public void addFirst(final T t) {
-        if (this.finished) {
+        if (this.initiated) {
             throw new UnsupportedOperationException("You can't edit the list that's unmodifiable!");
         }
         super.addFirst(t);
@@ -80,7 +80,7 @@ public final class UnmodifiableLinkedList<T> extends LinkedList<T> {
 
     @Override
     public void addLast(final T t) {
-        if (this.finished) {
+        if (this.initiated) {
             throw new UnsupportedOperationException("You can't edit the list that's unmodifiable!");
         }
         super.addLast(t);
@@ -88,7 +88,7 @@ public final class UnmodifiableLinkedList<T> extends LinkedList<T> {
 
     @Override
     public boolean add(final T t) {
-        if (this.finished) {
+        if (this.initiated) {
             throw new UnsupportedOperationException("You can't edit the list that's unmodifiable!");
         }
         return super.add(t);
@@ -96,7 +96,7 @@ public final class UnmodifiableLinkedList<T> extends LinkedList<T> {
 
     @Override
     public boolean remove(final Object o) {
-        if (this.finished) {
+        if (this.initiated) {
             throw new UnsupportedOperationException("You can't edit the list that's unmodifiable!");
         }
         return super.remove(o);
@@ -104,7 +104,7 @@ public final class UnmodifiableLinkedList<T> extends LinkedList<T> {
 
     @Override
     public boolean addAll(final Collection<? extends T> c) {
-        if (this.finished) {
+        if (this.initiated) {
             throw new UnsupportedOperationException("You can't edit the list that's unmodifiable!");
         }
         return super.addAll(c);
@@ -112,7 +112,7 @@ public final class UnmodifiableLinkedList<T> extends LinkedList<T> {
 
     @Override
     public boolean addAll(final int index, final Collection<? extends T> c) {
-        if (this.finished) {
+        if (this.initiated) {
             throw new UnsupportedOperationException("You can't edit the list that's unmodifiable!");
         }
         return super.addAll(index, c);
@@ -120,7 +120,7 @@ public final class UnmodifiableLinkedList<T> extends LinkedList<T> {
 
     @Override
     public void add(final int index, final T element) {
-        if (this.finished) {
+        if (this.initiated) {
             throw new UnsupportedOperationException("You can't edit the list that's unmodifiable!");
         }
         super.add(index, element);
@@ -128,7 +128,7 @@ public final class UnmodifiableLinkedList<T> extends LinkedList<T> {
 
     @Override
     public T remove(final int index) {
-        if (this.finished) {
+        if (this.initiated) {
             throw new UnsupportedOperationException("You can't edit the list that's unmodifiable!");
         }
         return super.remove(index);
@@ -136,7 +136,7 @@ public final class UnmodifiableLinkedList<T> extends LinkedList<T> {
 
     @Override
     public T remove() {
-        if (this.finished) {
+        if (this.initiated) {
             throw new UnsupportedOperationException("You can't edit the list that's unmodifiable!");
         }
         return super.remove();
@@ -144,7 +144,7 @@ public final class UnmodifiableLinkedList<T> extends LinkedList<T> {
 
     @Override
     public boolean removeFirstOccurrence(final Object o) {
-        if (this.finished) {
+        if (this.initiated) {
             throw new UnsupportedOperationException("You can't edit the list that's unmodifiable!");
         }
         return super.removeFirstOccurrence(o);
@@ -152,7 +152,7 @@ public final class UnmodifiableLinkedList<T> extends LinkedList<T> {
 
     @Override
     public boolean removeLastOccurrence(final Object o) {
-        if (this.finished) {
+        if (this.initiated) {
             throw new UnsupportedOperationException("You can't edit the list that's unmodifiable!");
         }
         return super.removeLastOccurrence(o);
@@ -160,7 +160,7 @@ public final class UnmodifiableLinkedList<T> extends LinkedList<T> {
 
     @Override
     protected void removeRange(final int fromIndex, final int toIndex) {
-        if (this.finished) {
+        if (this.initiated) {
             throw new UnsupportedOperationException("You can't edit the list that's unmodifiable!");
         }
         super.removeRange(fromIndex, toIndex);

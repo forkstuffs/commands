@@ -22,53 +22,16 @@
  * SOFTWARE.
  */
 
-package io.github.portlek.commands;
+package io.github.portlek.commands.arg;
 
-import java.util.LinkedList;
-import java.util.Optional;
+import io.github.portlek.commands.Arg;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
-public interface CmdContext {
+@RequiredArgsConstructor
+public final class ArgBasic implements Arg {
 
     @NotNull
-    CmdSender sender();
-
-    @NotNull
-    Cmd cmd();
-
-    @NotNull
-    default Arg arg() {
-        return this.args().getLast();
-    }
-
-    @NotNull
-    LinkedList<Arg> args();
-
-    @NotNull
-    default Arg previous(final int index) throws ArrayIndexOutOfBoundsException {
-        if (index < 1) {
-            throw new UnsupportedOperationException("The index must bigger than 0!");
-        }
-        return this.args().get(this.args().size() - index);
-    }
-
-    @NotNull
-    default Arg previous() {
-        return this.previous(1);
-    }
-
-    @NotNull
-    default Optional<SubCmd> current() {
-        final LinkedList<Arg> args = this.args();
-        if (args.isEmpty()) {
-            return Optional.empty();
-        }
-        for (int index = 0; index < args.size(); index++) {
-            final Arg arg = args.get(index);
-            final boolean islast = index == args.size() - 1;
-
-        }
-        return Optional.empty();
-    }
+    private final String text;
 
 }

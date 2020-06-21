@@ -28,27 +28,21 @@ import io.github.portlek.commands.Cmd;
 import io.github.portlek.commands.CmdRegistry;
 import io.github.portlek.commands.Guard;
 import io.github.portlek.commands.executor.BukkitExecutor;
-import io.github.portlek.reflection.clazz.ClassOf;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import org.bukkit.Bukkit;
-import org.bukkit.Server;
-import org.bukkit.command.CommandMap;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
+@RequiredArgsConstructor
 public final class BukkitCmdRegistry implements CmdRegistry {
 
     private final Map<String, Guard> guards = new HashMap<>();
 
     @NotNull
     private final JavaPlugin plugin;
-
-    public BukkitCmdRegistry(@NotNull final JavaPlugin plugin) {
-        this.plugin = plugin;
-    }
 
     @Override
     public void register(@NotNull final Cmd cmd) {

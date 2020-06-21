@@ -24,14 +24,14 @@
 
 package io.github.portlek.commands;
 
-import io.github.portlek.commands.cmd.BasicCmd;
+import io.github.portlek.commands.cmd.CmdBasic;
 import org.junit.jupiter.api.Test;
 
 final class CmdTest {
 
     @Test
     void creation() {
-        final BasicCmd command = new BasicCmd("test-command", "test-aliases")
+        final CmdBasic command = new CmdBasic("test-command", "test-aliases")
             .permission("plugin.test-command.main")
             .guard(context ->
                 true)

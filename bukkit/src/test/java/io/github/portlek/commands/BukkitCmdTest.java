@@ -24,7 +24,7 @@
 
 package io.github.portlek.commands;
 
-import io.github.portlek.commands.cmd.BasicCmd;
+import io.github.portlek.commands.cmd.CmdBasic;
 import io.github.portlek.commands.registry.BukkitCmdRegistry;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -40,7 +40,7 @@ final class BukkitCmdTest {
 
     void creation() {
         final BukkitCmdRegistry registry = new BukkitCmdRegistry(this.plugin);
-        final BasicCmd command = new BasicCmd("test-command", "test-aliases")
+        final CmdBasic command = new CmdBasic("test-command", "test-aliases")
             .permission("plugin.test-command.main")
             .guard(context ->
                 true)

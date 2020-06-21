@@ -22,53 +22,46 @@
  * SOFTWARE.
  */
 
-package io.github.portlek.commands;
+package io.github.portlek.commands.cmd;
 
-import java.util.LinkedList;
-import java.util.Optional;
+import io.github.portlek.commands.Cmd;
+import io.github.portlek.commands.part.CmdPartBasic;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import org.jetbrains.annotations.NotNull;
 
-public interface CmdContext {
+public final class CmdBasic extends CmdPartBasic<CmdBasic> implements Cmd {
 
-    @NotNull
-    CmdSender sender();
+    private final Collection<String> aliases = new ArrayList<>();
 
-    @NotNull
-    Cmd cmd();
+    public CmdBasic(@NotNull final String name) {
+        super(name);
+    }
 
-    @NotNull
-    default Arg arg() {
-        return this.args().getLast();
+    public CmdBasic(@NotNull final String name, final String... aliases) {
+        super(name);
+        this.aliases(aliases);
     }
 
     @NotNull
-    LinkedList<Arg> args();
-
-    @NotNull
-    default Arg previous(final int index) throws ArrayIndexOutOfBoundsException {
-        if (index < 1) {
-            throw new UnsupportedOperationException("The index must bigger than 0!");
-        }
-        return this.args().get(this.args().size() - index);
+    @Override
+    public Cmd aliases(@NotNull final String... aliases) {
+        this.aliases.addAll(Arrays.asList(aliases));
+        return this.self();
     }
 
     @NotNull
-    default Arg previous() {
-        return this.previous(1);
+    @Override
+    public Collection<String> aliases() {
+        return Collections.unmodifiableCollection(this.aliases);
     }
 
     @NotNull
-    default Optional<SubCmd> current() {
-        final LinkedList<Arg> args = this.args();
-        if (args.isEmpty()) {
-            return Optional.empty();
-        }
-        for (int index = 0; index < args.size(); index++) {
-            final Arg arg = args.get(index);
-            final boolean islast = index == args.size() - 1;
-
-        }
-        return Optional.empty();
+    @Override
+    public CmdBasic self() {
+        return this;
     }
 
 }

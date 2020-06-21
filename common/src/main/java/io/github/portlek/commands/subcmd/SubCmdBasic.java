@@ -22,49 +22,51 @@
  * SOFTWARE.
  */
 
-package io.github.portlek.commands.context;
+package io.github.portlek.commands.subcmd;
 
-import io.github.portlek.commands.Cmd;
-import io.github.portlek.commands.CmdContext;
-import io.github.portlek.commands.CmdSender;
-import io.github.portlek.commands.util.UnmodifiableLinkedList;
-import java.util.LinkedList;
-import org.bukkit.command.CommandSender;
+import io.github.portlek.commands.ArgType;
+import io.github.portlek.commands.CmdPart;
+import io.github.portlek.commands.SubCmd;
+import io.github.portlek.commands.argtype.LiteralType;
+import io.github.portlek.commands.part.CmdPartBasic;
 import org.jetbrains.annotations.NotNull;
 
-public final class BukkitCmdContext implements CmdContext {
+public final class SubCmdBasic extends CmdPartBasic<SubCmdBasic> implements SubCmd {
 
     @NotNull
-    private final Cmd cmd;
+    private final CmdPart<?> previous;
 
     @NotNull
-    private final CmdSender sender;
+    private ArgType type;
+
+    public SubCmdBasic(@NotNull final String name, final CmdPart<?> previous) {
+        super(name);
+        this.type = new LiteralType(name);
+        this.previous = previous;
+    }
 
     @NotNull
-    private final LinkedList<String> args;
-
-    public BukkitCmdContext(@NotNull final Cmd cmd, @NotNull final CommandSender sender,
-                            @NotNull final LinkedList<String> args) {
-        this.cmd = cmd;
-        this.sender = new BukkitCmdSender(sender);
-        this.args = args;
+    public CmdPart<?> previous() {
+        return this.previous;
     }
 
     @NotNull
     @Override
-    public CmdSender sender() {
-        return this.sender;
+    public SubCmdBasic type(final @NotNull ArgType type) {
+        this.type = type;
+        return this.self();
     }
 
     @NotNull
     @Override
-    public Cmd cmd() {
-        return this.cmd;
+    public ArgType type() {
+        return this.type;
     }
 
+    @NotNull
     @Override
-    public LinkedList<String> args() {
-        return new UnmodifiableLinkedList<>(this.args);
+    public SubCmdBasic self() {
+        return this;
     }
 
 }

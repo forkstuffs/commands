@@ -24,10 +24,10 @@
 
 package io.github.portlek.commands;
 
-import io.github.portlek.commands.subcmd.BasicSubCmd;
+import io.github.portlek.commands.subcmd.SubCmdBasic;
 import org.jetbrains.annotations.NotNull;
 
-public interface SubCmd extends CmdPart<BasicSubCmd> {
+public interface SubCmd extends CmdPart<SubCmdBasic> {
 
     @NotNull
     SubCmd type(@NotNull ArgType type);

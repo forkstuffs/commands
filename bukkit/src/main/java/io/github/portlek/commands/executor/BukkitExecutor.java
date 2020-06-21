@@ -27,26 +27,35 @@ package io.github.portlek.commands.executor;
 import io.github.portlek.commands.Cmd;
 import io.github.portlek.commands.CmdContext;
 import io.github.portlek.commands.SubCmd;
-import io.github.portlek.commands.context.BukkitCmdContext;
+import io.github.portlek.commands.arg.ArgBasic;
+import io.github.portlek.commands.context.BukkitCmdContextBasic;
+import io.github.portlek.commands.context.BukkitCmdSender;
+import io.github.portlek.commands.context.CmdContextBasic;
 import java.util.*;
+import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.jetbrains.annotations.NotNull;
 
+@RequiredArgsConstructor
 public final class BukkitExecutor implements TabExecutor {
 
     @NotNull
     private final Cmd cmd;
 
-    public BukkitExecutor(@NotNull final Cmd cmd) {
-        this.cmd = cmd;
-    }
-
     @Override
     public boolean onCommand(@NotNull final CommandSender sender, @NotNull final Command command,
                              @NotNull final String label, @NotNull final String[] args) {
-        final CmdContext context = new BukkitCmdContext(this.cmd, sender, new LinkedList<>(Arrays.asList(args)));
+        final CmdContext context = new BukkitCmdContextBasic(
+            new CmdContextBasic(
+                this.cmd,
+                new BukkitCmdSender(sender),
+                new LinkedList<>(
+                    Arrays.stream(args)
+                        .map(ArgBasic::new)
+                        .collect(Collectors.toList()))));
         if (this.cmd.guards().stream().anyMatch(guard ->
             guard.negate().test(context))) {
             return true;

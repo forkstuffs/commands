@@ -22,51 +22,8 @@
  * SOFTWARE.
  */
 
-package io.github.portlek.commands.subcmd;
+package io.github.portlek.commands;
 
-import io.github.portlek.commands.ArgType;
-import io.github.portlek.commands.CmdPart;
-import io.github.portlek.commands.SubCmd;
-import io.github.portlek.commands.argtype.LiteralType;
-import io.github.portlek.commands.part.BasicCmdPart;
-import org.jetbrains.annotations.NotNull;
-
-public final class BasicSubCmd extends BasicCmdPart<BasicSubCmd> implements SubCmd {
-
-    @NotNull
-    private final CmdPart<?> previous;
-
-    @NotNull
-    private ArgType type;
-
-    public BasicSubCmd(@NotNull final String name, final CmdPart<?> previous) {
-        super(name);
-        this.type = new LiteralType(name);
-        this.previous = previous;
-    }
-
-    @NotNull
-    public CmdPart<?> previous() {
-        return this.previous;
-    }
-
-    @NotNull
-    @Override
-    public BasicSubCmd type(final @NotNull ArgType type) {
-        this.type = type;
-        return this.self();
-    }
-
-    @NotNull
-    @Override
-    public ArgType type() {
-        return this.type;
-    }
-
-    @NotNull
-    @Override
-    public BasicSubCmd self() {
-        return this;
-    }
+public interface BukkitCmdContext extends CmdContext {
 
 }
