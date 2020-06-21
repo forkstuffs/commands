@@ -24,6 +24,15 @@
 
 package io.github.portlek.commands;
 
+import org.jetbrains.annotations.NotNull;
+
 public interface Arg {
+
+    @NotNull
+    default <N extends Number> N asNumber(@NotNull final Class<N> numberClass) {
+        return this.asNumber(numberClass, "");
+    }
+
+    @NotNull <N extends Number> N asNumber(@NotNull Class<N> numberClass, @NotNull String error);
 
 }

@@ -64,10 +64,13 @@ final class BukkitCmdTest {
                             final int amount;
                             final Player player;
                             if (size == 4) {
-                                amount = context.previous();
+                                amount = context.arg().asNumber(Integer.class, "[Prefix] > Input a number!");
+//                                player = context.previous().asPlayer("[Prefix] > Player not found!");
                             } else {
-
+                                amount = 1;
+//                                player = context.arg().asPlayer("[Prefix] > Player not found!");
                             }
+
                         })
                         .createSub("amount-argument", amountsub -> amountsub
                             .type(ArgType.integer("[amount]"))
